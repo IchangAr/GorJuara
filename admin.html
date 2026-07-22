@@ -127,26 +127,6 @@
         </div>
 
         <div>
-          <button
-            onclick="logout()"
-            class="flex items-center gap-3 text-red-300/70 hover:text-red-200 font-bold transition w-fit px-4 py-3 rounded-xl hover:bg-red-500/10 text-sm border border-transparent hover:border-red-500/20"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-              />
-            </svg>
-            <span>Keluar Panel</span>
-          </button>
           <div
             class="mt-6 text-[10px] text-primary-400/40 font-medium tracking-wide"
           >
@@ -183,6 +163,29 @@
         class="flex-1 overflow-y-auto p-6 md:p-10 relative scroll-smooth z-10"
       >
         <div class="max-w-6xl mx-auto h-full pb-20">
+          <div class="hidden md:flex justify-end mb-6">
+            <button
+              onclick="logout()"
+              class="flex items-center gap-3 text-red-300/70 hover:text-red-200 font-bold transition w-fit px-5 py-2.5 rounded-xl hover:bg-red-500/10 text-sm border border-white/5 bg-white/5 hover:border-red-500/20 shadow-sm"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                />
+              </svg>
+              Keluar Panel
+            </button>
+          </div>
+
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
             <div
               class="bg-white/5 backdrop-blur-md p-6 rounded-[2rem] border border-white/10 flex flex-col justify-center hover:bg-white/10 transition group"
