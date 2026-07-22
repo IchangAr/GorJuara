@@ -930,32 +930,41 @@ function renderPublic() {
 
   [getFutureDate(0).full, getFutureDate(1).full].forEach((d) => {
     let slotsHTML = "";
-    const times = ["08:00", "10:00", "13:00", "16:00", "19:00", "20:00"];
+    
+    const holiday = holidays.find(h => h.date === d);
+    if (holiday) {
+      slotsHTML = `<div class="bg-red-500/10 border border-red-500/20 p-6 rounded-[1.5rem] text-center my-8">
+          <h3 class="text-lg font-black text-white mb-1">GOR TUTUP</h3>
+          <p class="text-red-300/80 font-medium text-sm">Libur: ${holiday.reason}</p>
+      </div>`;
+    } else {
+      const times = ["08:00", "10:00", "13:00", "16:00", "19:00", "20:00"];
 
-    times.forEach((time) => {
-      let courtsInfo = "";
-      courts.forEach((court) => {
-        const isBooked = bookings.some(
-          (b) =>
-            b.date === d &&
-            b.time === time &&
-            b.court === court &&
-            b.status !== "rejected"
-        );
-        if (isBooked) {
-          courtsInfo += `<div class="bg-red-500/10 text-red-400 border border-red-500/20 text-[10px] font-bold px-2 py-1 rounded-md flex-1 text-center cursor-not-allowed opacity-50">${court.replace("Lapangan ", "L")}</div>`;
-        } else {
-          courtsInfo += `<button onclick="guestBook('${d}', '${time}', '${court}')" class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold px-2 py-1 rounded-md flex-1 text-center hover:bg-emerald-500 hover:text-white transition cursor-pointer shadow-sm shadow-emerald-500/10">${court.replace("Lapangan ", "L")}</button>`;
-        }
+      times.forEach((time) => {
+        let courtsInfo = "";
+        courts.forEach((court) => {
+          const isBooked = bookings.some(
+            (b) =>
+              b.date === d &&
+              b.time === time &&
+              b.court === court &&
+              b.status !== "rejected"
+          );
+          if (isBooked) {
+            courtsInfo += `<div class="bg-red-500/10 text-red-400 border border-red-500/20 text-[10px] font-bold px-2 py-1 rounded-md flex-1 text-center cursor-not-allowed opacity-50">${court.replace("Lapangan ", "L")}</div>`;
+          } else {
+            courtsInfo += `<button onclick="guestBook('${d}', '${time}', '${court}')" class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold px-2 py-1 rounded-md flex-1 text-center hover:bg-emerald-500 hover:text-white transition cursor-pointer shadow-sm shadow-emerald-500/10">${court.replace("Lapangan ", "L")}</button>`;
+          }
+        });
+
+        slotsHTML += `
+              <div class="flex items-center gap-3 border-b border-white/10 pb-3 last:border-0">
+                  <span class="text-white font-bold w-12 text-sm">${time}</span>
+                  <div class="flex gap-2 flex-1">${courtsInfo}</div>
+              </div>
+          `;
       });
-
-      slotsHTML += `
-            <div class="flex items-center gap-3 border-b border-white/10 pb-3 last:border-0">
-                <span class="text-white font-bold w-12 text-sm">${time}</span>
-                <div class="flex gap-2 flex-1">${courtsInfo}</div>
-            </div>
-        `;
-    });
+    }
 
     const card = document.createElement("div");
     card.className =
