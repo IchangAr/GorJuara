@@ -99,6 +99,13 @@ function formatRupiah(num) {
   return "Rp " + num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
+function formatRupiahText(val) {
+  // Strip dots, keep only digits
+  const num = val.replace(/\./g, "").replace(/\D/g, "");
+  if (!num) return "";
+  return parseInt(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
 function showToast(message, type = "success") {
   const container = document.getElementById("toast-container");
   if (!container) return;

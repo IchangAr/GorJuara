@@ -391,14 +391,14 @@ function renderAdminCourts() {
     list.innerHTML = courtsData.map((c, idx) => `
         <div class="bg-black/20 p-5 rounded-2xl border border-white/5 flex flex-col gap-4">
             <div class="flex justify-between items-center">
-                <h5 class="font-bold text-white">${c.name}</h5>
-                <button onclick="deleteCourt(${idx})" class="text-red-400 hover:text-red-300"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                <input type="text" value="${c.name}" onchange="updateCourtName(${idx}, this.value)" class="font-bold text-white bg-transparent border-b border-transparent hover:border-white/20 focus:border-emerald-500 outline-none w-full mr-2 pb-1" title="Ubah Nama">
+                <button onclick="deleteCourt(${idx})" class="text-red-400 hover:text-red-300 shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
             </div>
             <div>
                 <label class="text-[10px] uppercase font-bold text-white/50 block mb-1">Harga/Jam</label>
                 <div class="flex items-center gap-2">
                     <span class="text-xs text-white/40">Rp</span>
-                    <input type="number" value="${c.price}" onchange="updateCourtPrice(${idx}, this.value)" class="w-full bg-transparent border-b border-white/20 text-white outline-none focus:border-emerald-500 py-1">
+                    <input type="text" value="${formatRupiah(c.price).replace('Rp ', '')}" onchange="updateCourtPrice(${idx}, this.value)" oninput="this.value = formatRupiahText(this.value)" class="w-full bg-transparent border-b border-white/20 text-white outline-none focus:border-emerald-500 py-1" title="Ubah Harga">
                 </div>
             </div>
         </div>
@@ -424,9 +424,20 @@ async function updateCourtPrice(idx, newPrice) {
         renderAdminCourts(); // Re-render to reset the input value
         return;
     }
-    if (newPrice) courtsData[idx].price = parseInt(newPrice);
+    if (newPrice) courtsData[idx].price = parseInt(newPrice.replace(/\./g, ''));
     saveCourts();
     showToast("Harga diperbarui!", "success");
+}
+
+async function updateCourtName(idx, newName) {
+    if (!newName) return renderAdminCourts();
+    if (!(await showCustomConfirm(`Apakah Anda yakin ingin mengubah nama lapangan menjadi "${newName}"?`))) {
+        renderAdminCourts();
+        return;
+    }
+    courtsData[idx].name = newName;
+    saveCourts();
+    showToast("Nama lapangan diperbarui!", "success");
 }
 
 async function deleteCourt(idx) {
