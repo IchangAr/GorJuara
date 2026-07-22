@@ -1,0 +1,22 @@
+Part 0: 
+// --- Helper: Group Bookings by groupId ---
+func
+Part 1: // --- 1. KONFIGURASI & DATA UTAMA ---
+const days 
+Part 2: // --- 2. HELPER FUNCTIONS ---
+function getFutureD
+Part 3: // --- 3. NAVIGASI ---
+function navTo(viewId) {
+  
+Part 4: // --- 4. OTENTIKASI & PROFIL ---
+function loadPro
+Part 5: // --- 5. LOGIKA MEMBER ---
+function renderDateSel
+Part 6: // --- 6. ADMIN ---
+function setAdminTab(tabName) 
+Part 7: // --- 7. PUBLIC PAGE ---
+function renderPublic() 
+Part 8: // --- 7B. GUEST BOOKING ---
+let guestBookingData 
+Part 9: // --- 8. INITIALIZATION ---
+window.onload = funct

@@ -63,3 +63,53 @@ function togglePassword(inputId, iconId) {
     icon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>`;
   }
 }
+
+function handleLogin() {
+  const u = document.getElementById("username").value;
+  if (!u) return showToast("Username tidak boleh kosong!", "error");
+
+  sessionStorage.setItem("currentUser", u);
+  currentUser = u;
+
+  if (u.toLowerCase() === "admin") {
+    window.location.href = "admin.html";
+  } else {
+    window.location.href = "dashboard.html";
+  }
+}
+
+function logout() {
+  const modal = document.getElementById("logout-modal");
+  if (modal) {
+    modal.classList.remove("hidden");
+    const content = modal.querySelector('div[class*="transform"]');
+
+    setTimeout(() => {
+      content.classList.remove("scale-95", "opacity-0");
+      content.classList.add("scale-100", "opacity-100");
+    }, 10);
+  } else {
+    if (confirm("Yakin ingin keluar?")) {
+      sessionStorage.clear();
+      window.location.href = "index.html";
+    }
+  }
+}
+
+function confirmLogout() {
+  sessionStorage.clear();
+  window.location.href = "index.html";
+}
+
+function closeLogoutModal() {
+  const modal = document.getElementById("logout-modal");
+  if (!modal) return;
+  const content = modal.querySelector('div[class*="transform"]');
+
+  content.classList.remove("scale-100", "opacity-100");
+  content.classList.add("scale-95", "opacity-0");
+
+  setTimeout(() => {
+    modal.classList.add("hidden");
+  }, 200);
+}

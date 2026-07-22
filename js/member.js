@@ -31,55 +31,6 @@ function updateProfile(e) {
   }
 }
 
-function handleLogin() {
-  const u = document.getElementById("username").value;
-  if (!u) return showToast("Username tidak boleh kosong!", "error");
-
-  sessionStorage.setItem("currentUser", u);
-  currentUser = u;
-
-  if (u.toLowerCase() === "admin") {
-    window.location.href = "admin.html";
-  } else {
-    window.location.href = "dashboard.html";
-  }
-}
-
-function logout() {
-  const modal = document.getElementById("logout-modal");
-  if (modal) {
-    modal.classList.remove("hidden");
-    const content = modal.querySelector('div[class*="transform"]');
-
-    setTimeout(() => {
-      content.classList.remove("scale-95", "opacity-0");
-      content.classList.add("scale-100", "opacity-100");
-    }, 10);
-  } else {
-    if (confirm("Yakin ingin keluar?")) {
-      sessionStorage.clear();
-      window.location.href = "index.html";
-    }
-  }
-}
-
-function confirmLogout() {
-  sessionStorage.clear();
-  window.location.href = "index.html";
-}
-
-function closeLogoutModal() {
-  const modal = document.getElementById("logout-modal");
-  if (!modal) return;
-  const content = modal.querySelector('div[class*="transform"]');
-
-  content.classList.remove("scale-100", "opacity-100");
-  content.classList.add("scale-95", "opacity-0");
-
-  setTimeout(() => {
-    modal.classList.add("hidden");
-  }, 200);
-}
 
 // --- 5. LOGIKA MEMBER ---
 function renderDateSelector() {
