@@ -1,3 +1,51 @@
+
+function showCustomConfirm(message) {
+  return new Promise((resolve) => {
+    const modal = document.getElementById("custom-confirm-modal");
+    const box = document.getElementById("custom-confirm-box");
+    const msg = document.getElementById("custom-confirm-msg");
+    const btnCancel = document.getElementById("custom-confirm-btn-cancel");
+    const btnOk = document.getElementById("custom-confirm-btn-ok");
+    
+    if (!modal) {
+        resolve(window.confirm(message));
+        return;
+    }
+    
+    msg.innerText = message;
+    modal.classList.remove("hidden");
+    
+    // Animate in
+    setTimeout(() => {
+        box.classList.remove("scale-95", "opacity-0");
+        box.classList.add("scale-100", "opacity-100");
+    }, 10);
+    
+    const cleanup = () => {
+        box.classList.remove("scale-100", "opacity-100");
+        box.classList.add("scale-95", "opacity-0");
+        setTimeout(() => {
+            modal.classList.add("hidden");
+        }, 300);
+        btnCancel.removeEventListener("click", onCancel);
+        btnOk.removeEventListener("click", onOk);
+    };
+    
+    const onCancel = () => {
+        cleanup();
+        resolve(false);
+    };
+    
+    const onOk = () => {
+        cleanup();
+        resolve(true);
+    };
+    
+    btnCancel.addEventListener("click", onCancel);
+    btnOk.addEventListener("click", onOk);
+  });
+}
+
 // --- 6. ADMIN ---
 function setAdminTab(tabName) {
   currentAdminTab = tabName;
@@ -287,9 +335,9 @@ function renderAdminHistory() {
     .join("");
 }
 
-function toggleMaintenance(time, action, id = null, court = null) {
+async function toggleMaintenance(time, action, id = null, court = null) {
   if (action === "add") {
-    if (!confirm(`Tutup ${court} jam ${time} untuk maintenance?`)) return;
+    if (!(await showCustomConfirm(`Tutup ${court} jam ${time} untuk maintenance?`))) return;
     if (!court) return;
     bookings.push({
       id: Date.now(),
@@ -301,7 +349,7 @@ function toggleMaintenance(time, action, id = null, court = null) {
     });
     showToast(`${court} jam ${time} ditutup.`);
   } else {
-    if (!confirm(`Buka kembali slot ini?`)) return;
+    if (!(await showCustomConfirm(`Buka kembali slot ini?`))) return;
     const idx = bookings.findIndex((b) => b.id === id);
     if (idx > -1) bookings.splice(idx, 1);
     showToast(`Slot dibuka kembali.`);
@@ -310,11 +358,11 @@ function toggleMaintenance(time, action, id = null, court = null) {
   renderAdminSchedule();
 }
 
-function updateStatus(idOrGroupId, newStatus) {
+async function updateStatus(idOrGroupId, newStatus) {
   if (newStatus === 'rejected') {
-      if (!confirm("Apakah Anda yakin ingin menolak atau membatalkan pesanan ini?")) return;
+      if (!(await showCustomConfirm("Apakah Anda yakin ingin menolak atau membatalkan pesanan ini?"))) return;
   } else if (newStatus === 'booked') {
-      if (!confirm("Terima pesanan ini?")) return;
+      if (!(await showCustomConfirm("Terima pesanan ini?"))) return;
   }
   
   // If idOrGroupId is string and looks like timestamp (length > 10) it might be groupId
@@ -371,8 +419,8 @@ function addNewCourt() {
     renderAdminCourts();
 }
 
-function updateCourtPrice(idx, newPrice) {
-    if (!confirm("Apakah Anda yakin ingin mengubah harga lapangan ini?")) {
+async function updateCourtPrice(idx, newPrice) {
+    if (!(await showCustomConfirm("Apakah Anda yakin ingin mengubah harga lapangan ini?"))) {
         renderAdminCourts(); // Re-render to reset the input value
         return;
     }
@@ -381,8 +429,8 @@ function updateCourtPrice(idx, newPrice) {
     showToast("Harga diperbarui!", "success");
 }
 
-function deleteCourt(idx) {
-    if (!confirm("Apakah Anda yakin ingin menghapus lapangan ini? Data yang terkait mungkin akan terpengaruh.")) return;
+async function deleteCourt(idx) {
+    if (!(await showCustomConfirm("Apakah Anda yakin ingin menghapus lapangan ini? Data yang terkait mungkin akan terpengaruh."))) return;
     courtsData.splice(idx, 1);
     saveCourts();
     showToast("Lapangan dihapus!", "success");
@@ -444,8 +492,8 @@ function addHoliday() {
     renderAdminHolidays();
 }
 
-function deleteHoliday(idx) {
-    if (!confirm("Apakah Anda yakin ingin menghapus jadwal libur ini?")) return;
+async function deleteHoliday(idx) {
+    if (!(await showCustomConfirm("Apakah Anda yakin ingin menghapus jadwal libur ini?"))) return;
     holidays.splice(idx, 1);
     saveHolidays();
     showToast("Jadwal libur dihapus!", "success");
