@@ -149,7 +149,7 @@ function navTo(viewId) {
 // --- 4. OTENTIKASI (LOGIN & LOGOUT) ---
 function handleLogin() {
   const u = document.getElementById("username").value;
-  if (!u) return alert("Username tidak boleh kosong!");
+  if (!u) return showToast("Username tidak boleh kosong!", "error");
 
   sessionStorage.setItem("currentUser", u);
   currentUser = u;
@@ -370,8 +370,8 @@ function updateDurationPrice() {
     );
 
     if (clash) {
-      alert(
-        `Maaf, slot jam ${nextTime} sudah terisi. Durasi otomatis dikurangi.`
+      showToast(
+        `Maaf, slot jam ${nextTime} sudah terisi. Durasi otomatis dikurangi.`, "error"
       );
       durSelect.value = i;
       updateDurationPrice();
@@ -402,7 +402,7 @@ function handlePayment(e) {
   const btn = document.querySelector('button[type="submit"]');
 
   if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
-    alert("Harap upload bukti pembayaran terlebih dahulu!");
+    showToast("Harap upload bukti pembayaran terlebih dahulu!", "error");
     return;
   }
 
@@ -857,7 +857,7 @@ function submitGuestBooking(e) {
     const name = document.getElementById("guest-name").value;
     const phone = document.getElementById("guest-phone").value;
     
-    if(!name || !phone) return alert("Harap isi nama dan No. WhatsApp");
+    if(!name || !phone) return showToast("Harap isi nama dan No. WhatsApp", "error");
     
     const newId = bookings.length > 0 ? Math.max(...bookings.map((b) => b.id)) + 1 : 1;
     bookings.push({
@@ -880,7 +880,7 @@ function submitGuestBooking(e) {
     btn.disabled = true;
     
     setTimeout(() => {
-        alert("Booking Berhasil! Silakan datang ke lapangan dan tunjukkan pesan WhatsApp atau nama Anda.");
+        showToast("Booking Berhasil! Silakan datang ke lapangan dan tunjukkan pesan WhatsApp atau nama Anda.", "success");
         btn.innerHTML = `Booking Sekarang`;
         btn.disabled = false;
         document.getElementById("guest-form").reset();
