@@ -113,3 +113,32 @@ function closeLogoutModal() {
     modal.classList.add("hidden");
   }, 200);
 }
+
+// --- 8. INITIALIZATION ---
+window.onload = function () {
+  const path = window.location.pathname;
+
+  const hDate = document.getElementById("header-date");
+  if (hDate)
+    hDate.innerText = new Date().toLocaleDateString("id-ID", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+
+  if (path.includes("dashboard.html")) {
+    if (!currentUser) {
+      window.location.href = "login.html";
+      return;
+    }
+    const lastView = sessionStorage.getItem("lastView") || "view-dashboard";
+    navTo(lastView);
+  } else if (path.includes("admin.html")) {
+    setAdminTab("pending");
+  } else if (path.includes("login.html")) {
+    navTo("view-auth");
+  } else {
+    navTo("view-landing");
+  }
+};
