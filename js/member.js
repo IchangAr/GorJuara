@@ -46,6 +46,14 @@ async function memberCancelBooking(groupId) {
     renderHistory();
 }
 
+async function memberDeleteBooking(groupId) {
+    const confirmed = await showCustomConfirm("Hapus tiket ini dari daftar Anda?");
+    if (!confirmed) return;
+    deleteBookingByGroup(groupId);
+    showToast("Tiket berhasil dihapus.", "success");
+    renderHistory();
+}
+
 // --- 4. OTENTIKASI & PROFIL ---
 function loadProfile() {
   const users = JSON.parse(localStorage.getItem("gorjuara_users")) || [];
@@ -417,18 +425,26 @@ function renderHistory() {
                    b.court
                  }</span>
              </div>
-             ${
-               canCancel
-                 ? `<button onclick="memberCancelBooking(${b.groupId || b.id})" class="flex items-center gap-1.5 text-[10px] font-bold text-red-300 bg-red-500/10 hover:bg-red-500/20 px-3 py-1.5 rounded-lg border border-red-500/20 hover:border-red-500/30 transition">
-                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                     Batalkan
-                   </button>`
-                 : b.status === "cancel-pending"
-                 ? `<span class="text-[10px] font-bold text-amber-300/70 italic">Menunggu konfirmasi admin</span>`
-                 : b.status === "booked"
-                 ? '<svg class="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>'
-                 : ""
-             }
+             <div class="flex items-center gap-2">
+               ${
+                 canCancel
+                   ? `<button onclick="memberCancelBooking(${b.groupId || b.id})" class="flex items-center gap-1.5 text-[10px] font-bold text-red-300 bg-red-500/10 hover:bg-red-500/20 px-3 py-1.5 rounded-lg border border-red-500/20 hover:border-red-500/30 transition">
+                       <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                       Batalkan
+                     </button>`
+                   : b.status === "cancel-pending"
+                   ? `<span class="text-[10px] font-bold text-amber-300/70 italic">Menunggu konfirmasi admin</span>`
+                   : ""
+               }
+               ${
+                 b.status === "rejected" || b.status === "cancel-pending"
+                   ? `<button onclick="memberDeleteBooking(${b.groupId || b.id})" class="flex items-center gap-1.5 text-[10px] font-bold text-white/40 hover:text-red-300 bg-white/5 hover:bg-red-500/10 px-3 py-1.5 rounded-lg border border-white/5 hover:border-red-500/20 transition" title="Hapus dari daftar">
+                       <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                       Hapus
+                     </button>`
+                   : ""
+               }
+             </div>
          </div>
       </div>`;
     })

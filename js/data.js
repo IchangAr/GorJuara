@@ -14,7 +14,21 @@ function groupBookings(list) {
 }
 
 function cancelBooking(groupId) {
-    updateStatus(groupId, 'cancel-pending');
+    bookings.forEach(b => {
+        if (b.id == groupId || b.groupId == groupId) {
+            b.status = 'cancel-pending';
+        }
+    });
+    saveToStorage();
+}
+
+function deleteBookingByGroup(groupId) {
+    for (let i = bookings.length - 1; i >= 0; i--) {
+        if (bookings[i].id == groupId || bookings[i].groupId == groupId) {
+            bookings.splice(i, 1);
+        }
+    }
+    saveToStorage();
 }
 
 // --- 1. KONFIGURASI & DATA UTAMA ---
