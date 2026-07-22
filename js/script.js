@@ -607,7 +607,7 @@ function renderHistory() {
 // --- 6. ADMIN ---
 function setAdminTab(tabName) {
   currentAdminTab = tabName;
-  ["pending", "schedule", "history", "register"].forEach((t) => {
+  ["pending", "schedule", "history", "register", "courts", "holidays"].forEach((t) => {
     const btn = document.getElementById(`btn-${t}`);
     const content = document.getElementById(`admin-content-${t}`);
 
