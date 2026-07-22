@@ -1,3 +1,22 @@
+
+// --- Helper: Group Bookings by groupId ---
+function groupBookings(list) {
+  const groups = {};
+  list.forEach(b => {
+    const key = b.groupId || b.id;
+    if (!groups[key]) {
+      groups[key] = { ...b, childIds: [b.id] };
+    } else {
+      groups[key].childIds.push(b.id);
+    }
+  });
+  return Object.values(groups).sort((a, b) => b.id - a.id);
+}
+
+function cancelBooking(groupId) {
+    updateStatus(groupId, 'cancel-pending');
+}
+
 // --- 1. KONFIGURASI & DATA UTAMA ---
 const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
 const months = [
@@ -144,9 +163,56 @@ function navTo(viewId) {
   if (viewId === "view-schedule-public") renderPublic();
   if (viewId === "view-admin") renderAdminDashboard();
   if (viewId === "view-dashboard") renderHistory();
+  if (viewId === "view-profile") loadProfile();
 }
 
-// --- 4. OTENTIKASI (LOGIN & LOGOUT) ---
+function togglePassword(inputId, iconId) {
+  const input = document.getElementById(inputId);
+  const icon = document.getElementById(iconId);
+  if (!input || !icon) return;
+
+  if (input.type === "password") {
+    input.type = "text";
+    icon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path>`;
+  } else {
+    input.type = "password";
+    icon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>`;
+  }
+}
+
+// --- 4. OTENTIKASI & PROFIL ---
+function loadProfile() {
+  const users = JSON.parse(localStorage.getItem("gorjuara_users")) || [];
+  const user = users.find(u => u.username === currentUser);
+  if (user) {
+    document.getElementById("prof-username").value = user.username;
+    document.getElementById("prof-phone").value = user.phone || "";
+    document.getElementById("prof-password").value = "";
+    document.getElementById("prof-password-confirm").value = "";
+  }
+}
+
+function updateProfile(e) {
+  e.preventDefault();
+  const phone = document.getElementById("prof-phone").value;
+  const pass = document.getElementById("prof-password").value;
+  const passConfirm = document.getElementById("prof-password-confirm").value;
+
+  if (pass || passConfirm) {
+    if (pass !== passConfirm) return showToast("Konfirmasi password tidak cocok!", "error");
+  }
+
+  let users = JSON.parse(localStorage.getItem("gorjuara_users")) || [];
+  const userIndex = users.findIndex(u => u.username === currentUser);
+  if (userIndex !== -1) {
+    users[userIndex].phone = phone;
+    if (pass) users[userIndex].pass = pass;
+    localStorage.setItem("gorjuara_users", JSON.stringify(users));
+    showToast("Profil berhasil diperbarui!", "success");
+    setTimeout(() => navTo('view-dashboard'), 1500);
+  }
+}
+
 function handleLogin() {
   const u = document.getElementById("username").value;
   if (!u) return showToast("Username tidak boleh kosong!", "error");
@@ -240,6 +306,19 @@ function renderSlots() {
   const area = document.getElementById("slots-area");
   if (!area) return;
   area.innerHTML = "";
+  
+  const holiday = holidays.find(h => h.date === selectedDate);
+  if (holiday) {
+      area.innerHTML = `<div class="bg-red-500/10 border border-red-500/20 p-8 rounded-[2rem] text-center">
+          <div class="w-16 h-16 bg-red-500/20 text-red-400 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+          </div>
+          <h3 class="text-xl font-black text-white mb-2">GOR TUTUP</h3>
+          <p class="text-red-300/80 font-medium">Libur: ${holiday.reason}</p>
+      </div>`;
+      return;
+  }
+
   area.className = "flex flex-col gap-4";
 
   const now = new Date();
@@ -379,7 +458,9 @@ function updateDurationPrice() {
     }
   }
 
-  const total = duration * pricePerHour;
+  const courtObj = courtsData.find(c => c.name === selectedCourt);
+  const currentPrice = courtObj ? courtObj.price : pricePerHour;
+  const total = duration * currentPrice;
   const priceDisplay = document.getElementById("total-price-display");
   if (priceDisplay) priceDisplay.innerText = formatRupiah(total);
 }
@@ -413,10 +494,12 @@ function handlePayment(e) {
   setTimeout(() => {
     const fileName = fileInput.files[0].name;
     const baseId = Date.now();
+    const groupId = baseId;
     for (let i = 0; i < duration; i++) {
       let bookingTime = addHours(selectedTime, i);
       bookings.push({
         id: baseId + i,
+        groupId: groupId,
         date: selectedDate,
         time: bookingTime,
         court: selectedCourt,
@@ -557,16 +640,19 @@ function setAdminTab(tabName) {
 function adminRegisterMember(e) {
   e.preventDefault();
   const username = document.getElementById("reg-username").value;
+  const phone = document.getElementById("reg-phone").value;
   const pass = document.getElementById("reg-password").value;
+  const passConfirm = document.getElementById("reg-password-confirm").value;
   
-  if(!username || !pass) return showToast("Semua field harus diisi", "error");
+  if(!username || !phone || !pass || !passConfirm) return showToast("Semua field harus diisi", "error");
+  if(pass !== passConfirm) return showToast("Password tidak sama!", "error");
   
   let registered = JSON.parse(localStorage.getItem("gorjuara_users")) || [];
   if (registered.some(u => u.username === username)) {
       return showToast("Username sudah digunakan", "error");
   }
   
-  registered.push({ username, pass });
+  registered.push({ username, phone, pass });
   localStorage.setItem("gorjuara_users", JSON.stringify(registered));
   
   showToast(`Member ${username} berhasil didaftarkan!`, "success");
@@ -574,7 +660,7 @@ function adminRegisterMember(e) {
 }
 
 function renderAdminDashboard() {
-  const pending = bookings.filter((b) => b.status === "pending");
+  const pending = bookings.filter((b) => b.status === "pending" || b.status === "cancel-pending");
   const booked = bookings.filter((b) => b.status === "booked");
 
   const elIncome = document.getElementById("admin-income");
@@ -582,7 +668,7 @@ function renderAdminDashboard() {
   const elPendingBig = document.getElementById("admin-pending-count-big");
   const elBadge = document.getElementById("badge-count");
 
-  if (elIncome) elIncome.innerText = formatRupiah(booked.length * pricePerHour);
+  if (elIncome) elIncome.innerText = formatRupiah(booked.reduce((sum, b) => sum + (b.total || (courtsData.find(c=>c.name===b.court)?.price || 50000)), 0));
   if (elTotal) elTotal.innerText = booked.length;
   if (elPendingBig) elPendingBig.innerText = pending.length;
 
@@ -600,6 +686,8 @@ function renderAdminDashboard() {
   if (currentAdminTab === "pending") renderAdminPending(pending);
   if (currentAdminTab === "schedule") renderAdminSchedule();
   if (currentAdminTab === "history") renderAdminHistory();
+  if (currentAdminTab === "courts") renderAdminCourts();
+  if (currentAdminTab === "holidays") renderAdminHolidays();
 }
 
 function renderAdminPending(pendingList) {
@@ -678,6 +766,16 @@ function renderAdminSchedule() {
   const grid = document.getElementById("admin-slots-grid");
   grid.className = "flex flex-col gap-4";
   grid.innerHTML = "";
+  
+  const holiday = holidays.find(h => h.date === selectedDate);
+  if (holiday) {
+      grid.innerHTML = `<div class="bg-red-500/10 border border-red-500/20 p-8 rounded-[2rem] text-center">
+          <h3 class="text-xl font-black text-white mb-2">GOR TUTUP</h3>
+          <p class="text-red-300/80 font-medium">Libur: ${holiday.reason}</p>
+      </div>`;
+      return;
+  }
+
 
   const times = [
     "08:00",
@@ -804,13 +902,23 @@ function toggleMaintenance(time, action, id = null, court = null) {
   renderAdminSchedule();
 }
 
-function updateStatus(id, newStatus) {
-  const idx = bookings.findIndex((b) => b.id === id);
-  if (idx > -1) {
-    bookings[idx].status = newStatus;
+function updateStatus(idOrGroupId, newStatus) {
+  // If idOrGroupId is string and looks like timestamp (length > 10) it might be groupId
+  // We just update ALL bookings that have this groupId or id
+  let updatedCount = 0;
+  bookings.forEach(b => {
+    if (b.id == idOrGroupId || b.groupId == idOrGroupId) {
+      b.status = newStatus;
+      updatedCount++;
+    }
+  });
+  
+  if (updatedCount > 0) {
     saveToStorage();
     renderAdminDashboard();
-    showToast(`Status diperbarui: ${newStatus}`);
+    // if we're on member view, render History too
+    if (currentAdminTab === "") renderHistory();
+    showToast(`Status diperbarui.`);
   }
 }
 
@@ -899,8 +1007,10 @@ function updateGuestDuration() {
     }
     
     const finalDuration = parseInt(durSelect.value);
+    const courtObj = courtsData.find(c => c.name === guestBookingData.court);
+    const currentPrice = courtObj ? courtObj.price : 50000;
     const priceDisplay = document.getElementById("guest-pay-price");
-    if(priceDisplay) priceDisplay.innerText = formatRupiah(finalDuration * 50000);
+    if(priceDisplay) priceDisplay.innerText = formatRupiah(finalDuration * currentPrice);
 }
 
 function submitGuestBooking(e) {
@@ -912,21 +1022,29 @@ function submitGuestBooking(e) {
     
     const durSelect = document.getElementById("guest-duration");
     const duration = durSelect ? parseInt(durSelect.value) : 1;
-    const total = duration * 50000;
+    const courtObj = courtsData.find(c => c.name === guestBookingData.court);
+    const currentPrice = courtObj ? courtObj.price : 50000;
+    const total = duration * currentPrice;
     
-    const newId = bookings.length > 0 ? Math.max(...bookings.map((b) => b.id)) + 1 : 1;
-    bookings.push({
-        id: newId,
-        user: name,
-        member: name + " (Guest)", // Identify as guest
-        date: guestBookingData.date,
-        time: guestBookingData.time,
-        court: guestBookingData.court,
-        duration: duration,
-        total: total,
-        status: "pending",
-        proof: "Bayar di Tempat"
-    });
+    const baseId = bookings.length > 0 ? Math.max(...bookings.map((b) => b.id)) + 1 : 1;
+    const groupId = Date.now();
+    for(let i=0; i<duration; i++) {
+        let bookingTime = addHours(guestBookingData.time, i);
+        bookings.push({
+            id: baseId + i,
+            groupId: groupId,
+            user: name,
+            member: name + " (Guest)",
+            date: guestBookingData.date,
+            time: bookingTime,
+            court: guestBookingData.court,
+            duration: 1,
+            total: total / duration, // total per jam
+            status: "pending",
+            proof: "Bayar di Tempat",
+            durationInfo: `${duration} Jam`
+        });
+    }
     
     saveToStorage();
     
@@ -972,3 +1090,92 @@ window.onload = function () {
     navTo("view-landing");
   }
 };
+
+
+function renderAdminCourts() {
+    const list = document.getElementById("admin-courts-list");
+    if (!list) return;
+    
+    list.innerHTML = courtsData.map((c, idx) => `
+        <div class="bg-black/20 p-5 rounded-2xl border border-white/5 flex flex-col gap-4">
+            <div class="flex justify-between items-center">
+                <h5 class="font-bold text-white">${c.name}</h5>
+                <button onclick="deleteCourt(${idx})" class="text-red-400 hover:text-red-300"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+            </div>
+            <div>
+                <label class="text-[10px] uppercase font-bold text-white/50 block mb-1">Harga/Jam</label>
+                <div class="flex items-center gap-2">
+                    <span class="text-xs text-white/40">Rp</span>
+                    <input type="number" value="${c.price}" onchange="updateCourtPrice(${idx}, this.value)" class="w-full bg-transparent border-b border-white/20 text-white outline-none focus:border-emerald-500 py-1">
+                </div>
+            </div>
+        </div>
+    `).join("");
+}
+
+function addNewCourt() {
+    const name = document.getElementById("new-court-name").value;
+    const price = document.getElementById("new-court-price").value;
+    if (!name || !price) return showToast("Isi nama dan harga!", "error");
+    
+    courtsData.push({ name, price: parseInt(price) });
+    saveCourts();
+    document.getElementById("modal-add-court").classList.add("hidden");
+    document.getElementById("new-court-name").value = "";
+    document.getElementById("new-court-price").value = "";
+    showToast("Lapangan berhasil ditambahkan!", "success");
+    renderAdminCourts();
+}
+
+function updateCourtPrice(idx, newPrice) {
+    if (newPrice) courtsData[idx].price = parseInt(newPrice);
+    saveCourts();
+    showToast("Harga diperbarui!", "success");
+}
+
+function deleteCourt(idx) {
+    courtsData.splice(idx, 1);
+    saveCourts();
+    showToast("Lapangan dihapus!", "success");
+    renderAdminCourts();
+}
+
+function renderAdminHolidays() {
+    const list = document.getElementById("admin-holidays-list");
+    if (!list) return;
+    
+    if (holidays.length === 0) {
+        list.innerHTML = `<div class="text-sm text-white/50 italic p-4 bg-black/10 rounded-xl">Belum ada jadwal libur.</div>`;
+        return;
+    }
+    
+    list.innerHTML = holidays.map((h, idx) => `
+        <div class="bg-black/20 p-4 rounded-xl border border-white/5 flex justify-between items-center">
+            <div>
+                <div class="font-bold text-white">${h.date}</div>
+                <div class="text-xs text-red-300">${h.reason}</div>
+            </div>
+            <button onclick="deleteHoliday(${idx})" class="text-red-400 hover:text-red-300 text-xs bg-red-500/10 px-3 py-1.5 rounded-lg border border-red-500/20">Hapus</button>
+        </div>
+    `).join("");
+}
+
+function addHoliday() {
+    const date = document.getElementById("holiday-date").value;
+    const reason = document.getElementById("holiday-reason").value;
+    if (!date || !reason) return showToast("Isi tanggal dan keterangan!", "error");
+    
+    holidays.push({ date, reason });
+    saveHolidays();
+    document.getElementById("holiday-date").value = "";
+    document.getElementById("holiday-reason").value = "";
+    showToast("Jadwal libur ditambahkan!", "success");
+    renderAdminHolidays();
+}
+
+function deleteHoliday(idx) {
+    holidays.splice(idx, 1);
+    saveHolidays();
+    showToast("Jadwal libur dihapus!", "success");
+    renderAdminHolidays();
+}

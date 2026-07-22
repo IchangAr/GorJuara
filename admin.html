@@ -87,49 +87,41 @@
               id="btn-pending"
               class="w-full text-left p-4 rounded-2xl flex items-center gap-4 transition-all bg-white/10 border border-white/20 text-white shadow-lg backdrop-blur-sm group hover:scale-[1.02]"
             >
-              <span
-                class="bg-accent-500 w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold shadow-md text-white group-hover:bg-accent-400 transition"
-                >!</span
-              >
+              <span class="bg-accent-500 w-8 h-8 rounded-lg flex items-center justify-center shadow-md text-white group-hover:bg-accent-400 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+              </span>
               <span class="font-bold text-sm">Verifikasi</span>
-              <span
-                id="badge-count"
-                class="ml-auto bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full hidden animate-pulse"
-                >0</span
-              >
+              <span id="badge-count" class="ml-auto bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full hidden animate-pulse">0</span>
             </button>
-            <button
-              onclick="setAdminTab('schedule')"
-              id="btn-schedule"
-              class="w-full text-left p-4 rounded-2xl flex items-center gap-4 transition-all hover:bg-white/5 border border-transparent text-primary-200 hover:text-white group"
-            >
-              <span
-                class="bg-primary-800 w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold shadow-md text-emerald-400 group-hover:text-white transition"
-              ></span>
+            <button onclick="setAdminTab('schedule')" id="btn-schedule" class="w-full text-left p-4 rounded-2xl flex items-center gap-4 transition-all hover:bg-white/5 border border-transparent text-primary-200 hover:text-white group">
+              <span class="bg-primary-800 w-8 h-8 rounded-lg flex items-center justify-center shadow-md text-emerald-400 group-hover:text-white transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+              </span>
               <span class="font-bold text-sm">Kelola Jadwal</span>
             </button>
-            <button
-              onclick="setAdminTab('history')"
-              id="btn-history"
-              class="w-full text-left p-4 rounded-2xl flex items-center gap-4 transition-all hover:bg-white/5 border border-transparent text-primary-200 hover:text-white group"
-            >
-              <span
-                class="bg-primary-800 w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold shadow-md text-emerald-400 group-hover:text-white transition"
-                >dh</span
-              >
+            <button onclick="setAdminTab('history')" id="btn-history" class="w-full text-left p-4 rounded-2xl flex items-center gap-4 transition-all hover:bg-white/5 border border-transparent text-primary-200 hover:text-white group">
+              <span class="bg-primary-800 w-8 h-8 rounded-lg flex items-center justify-center shadow-md text-emerald-400 group-hover:text-white transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              </span>
               <span class="font-bold text-sm">Riwayat</span>
             </button>
-            <button
-              onclick="setAdminTab('register')"
-              id="btn-register"
-              class="w-full text-left p-4 rounded-2xl flex items-center gap-4 transition-all hover:bg-white/5 border border-transparent text-primary-200 hover:text-white group"
-            >
-              <span
-                class="bg-primary-800 w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold shadow-md text-emerald-400 group-hover:text-white transition"
-              >
-                +
+            <button onclick="setAdminTab('register')" id="btn-register" class="w-full text-left p-4 rounded-2xl flex items-center gap-4 transition-all hover:bg-white/5 border border-transparent text-primary-200 hover:text-white group">
+              <span class="bg-primary-800 w-8 h-8 rounded-lg flex items-center justify-center shadow-md text-emerald-400 group-hover:text-white transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
               </span>
               <span class="font-bold text-sm">Member Baru</span>
+            </button>
+            <button onclick="setAdminTab('courts')" id="btn-courts" class="w-full text-left p-4 rounded-2xl flex items-center gap-4 transition-all hover:bg-white/5 border border-transparent text-primary-200 hover:text-white group">
+              <span class="bg-primary-800 w-8 h-8 rounded-lg flex items-center justify-center shadow-md text-emerald-400 group-hover:text-white transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+              </span>
+              <span class="font-bold text-sm">Lapangan & Harga</span>
+            </button>
+            <button onclick="setAdminTab('holidays')" id="btn-holidays" class="w-full text-left p-4 rounded-2xl flex items-center gap-4 transition-all hover:bg-white/5 border border-transparent text-primary-200 hover:text-white group">
+              <span class="bg-primary-800 w-8 h-8 rounded-lg flex items-center justify-center shadow-md text-emerald-400 group-hover:text-white transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
+              </span>
+              <span class="font-bold text-sm">Tutup GOR (Libur)</span>
             </button>
           </nav>
         </div>
@@ -396,8 +388,26 @@
                     <input type="text" id="reg-username" required class="w-full px-5 py-4 rounded-xl bg-black/20 border border-white/10 focus:border-accent-500 outline-none text-white text-sm" placeholder="Contoh: budi123">
                   </div>
                   <div>
+                    <label class="block text-xs font-bold text-primary-300 uppercase tracking-widest mb-2">No. WhatsApp</label>
+                    <input type="number" id="reg-phone" required class="w-full px-5 py-4 rounded-xl bg-black/20 border border-white/10 focus:border-accent-500 outline-none text-white text-sm" placeholder="Contoh: 08123456789">
+                  </div>
+                  <div>
                     <label class="block text-xs font-bold text-primary-300 uppercase tracking-widest mb-2">Password Sementara</label>
-                    <input type="text" id="reg-password" required class="w-full px-5 py-4 rounded-xl bg-black/20 border border-white/10 focus:border-accent-500 outline-none text-white text-sm" placeholder="Masukkan password...">
+                    <div class="relative">
+                      <input type="password" id="reg-password" required class="w-full px-5 py-4 rounded-xl bg-black/20 border border-white/10 focus:border-accent-500 outline-none text-white text-sm pr-12" placeholder="Masukkan password...">
+                      <button type="button" onclick="togglePassword('reg-password', 'eye-icon-1')" class="absolute inset-y-0 right-0 px-4 flex items-center text-white/50 hover:text-white transition">
+                        <svg id="eye-icon-1" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-bold text-primary-300 uppercase tracking-widest mb-2">Konfirmasi Password</label>
+                    <div class="relative">
+                      <input type="password" id="reg-password-confirm" required class="w-full px-5 py-4 rounded-xl bg-black/20 border border-white/10 focus:border-accent-500 outline-none text-white text-sm pr-12" placeholder="Ulangi password...">
+                      <button type="button" onclick="togglePassword('reg-password-confirm', 'eye-icon-2')" class="absolute inset-y-0 right-0 px-4 flex items-center text-white/50 hover:text-white transition">
+                        <svg id="eye-icon-2" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                      </button>
+                    </div>
                   </div>
                   <button type="submit" class="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl shadow-xl shadow-emerald-600/20 transition-all mt-4">
                     Buat Akun Member
@@ -405,6 +415,82 @@
                 </form>
              </div>
           </div>
+
+
+          <div id="admin-content-courts" class="hidden animate-fade-in">
+             <div class="bg-white/5 backdrop-blur-md p-6 md:p-10 rounded-[2rem] border border-white/10 shadow-xl mb-8">
+                <div class="flex items-center justify-between mb-8">
+                  <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-emerald-500/20 text-emerald-400 rounded-xl flex items-center justify-center">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                    </div>
+                    <div>
+                        <h4 class="font-black text-2xl text-white">Kelola Lapangan</h4>
+                        <p class="text-primary-200 text-sm mt-1">Atur jumlah lapangan dan harga sewa per jam.</p>
+                    </div>
+                  </div>
+                  <button onclick="document.getElementById('modal-add-court').classList.remove('hidden')" class="px-6 py-3 bg-emerald-600 text-white rounded-xl text-sm font-bold hover:bg-emerald-500 transition shadow-lg shadow-emerald-500/20 flex items-center gap-2">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg> Tambah
+                  </button>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="admin-courts-list">
+                    <!-- Courts will be rendered here -->
+                </div>
+             </div>
+          </div>
+
+          <div id="admin-content-holidays" class="hidden animate-fade-in">
+             <div class="bg-white/5 backdrop-blur-md p-6 md:p-10 rounded-[2rem] border border-white/10 shadow-xl max-w-2xl">
+                <div class="flex items-center gap-4 mb-2">
+                  <div class="w-12 h-12 bg-red-500/20 text-red-400 rounded-xl flex items-center justify-center">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
+                  </div>
+                  <h4 class="font-black text-2xl text-white">Tutup GOR (Libur)</h4>
+                </div>
+                <p class="text-primary-200 text-sm mb-8">Pilih tanggal untuk menutup GOR. Pelanggan tidak akan bisa memesan pada tanggal tersebut.</p>
+                
+                <div class="flex gap-4 items-end mb-8">
+                    <div class="flex-1">
+                        <label class="block text-xs font-bold text-primary-300 uppercase tracking-widest mb-2">Tanggal Libur</label>
+                        <input type="date" id="holiday-date" required class="w-full px-5 py-4 rounded-xl bg-black/20 border border-white/10 focus:border-accent-500 outline-none text-white text-sm">
+                    </div>
+                    <div class="flex-1">
+                        <label class="block text-xs font-bold text-primary-300 uppercase tracking-widest mb-2">Keterangan</label>
+                        <input type="text" id="holiday-reason" required class="w-full px-5 py-4 rounded-xl bg-black/20 border border-white/10 focus:border-accent-500 outline-none text-white text-sm" placeholder="Contoh: Lebaran">
+                    </div>
+                    <button onclick="addHoliday()" class="px-8 py-4 bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl shadow-xl shadow-red-600/20 transition-all">
+                        Tutup GOR
+                    </button>
+                </div>
+                
+                <h5 class="font-bold text-white mb-4">Daftar Hari Libur:</h5>
+                <div class="space-y-3" id="admin-holidays-list">
+                    <!-- Holidays rendered here -->
+                </div>
+             </div>
+          </div>
+          
+          <div id="modal-add-court" class="hidden fixed inset-0 z-[110] flex items-center justify-center bg-black/80 backdrop-blur-sm">
+              <div class="bg-primary-900 border border-white/10 p-8 rounded-3xl w-full max-w-sm shadow-2xl">
+                <h3 class="text-2xl font-black text-white mb-6">Tambah Lapangan</h3>
+                <div class="space-y-4 mb-8">
+                    <div>
+                        <label class="block text-xs font-bold text-primary-300 uppercase tracking-widest mb-2">Nama Lapangan</label>
+                        <input type="text" id="new-court-name" class="w-full px-4 py-3 rounded-xl bg-black/20 border border-white/10 focus:border-emerald-500 outline-none text-white text-sm" placeholder="Contoh: Lapangan 4">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-primary-300 uppercase tracking-widest mb-2">Harga per Jam (Rp)</label>
+                        <input type="number" id="new-court-price" class="w-full px-4 py-3 rounded-xl bg-black/20 border border-white/10 focus:border-emerald-500 outline-none text-white text-sm" placeholder="Contoh: 50000">
+                    </div>
+                </div>
+                <div class="flex gap-3">
+                  <button onclick="document.getElementById('modal-add-court').classList.add('hidden')" class="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white font-bold rounded-xl transition border border-white/5">Batal</button>
+                  <button onclick="addNewCourt()" class="flex-1 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition shadow-lg shadow-emerald-600/20">Simpan</button>
+                </div>
+              </div>
+          </div>
+
         </div>
       </div>
     </main>
