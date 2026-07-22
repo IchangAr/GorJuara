@@ -849,7 +849,39 @@ function guestBook(date, time, court) {
     const labelTime = document.getElementById("guest-pay-time");
     if(labelDate) labelDate.innerText = date;
     if(labelTime) labelTime.innerHTML = `${time} <span class="font-medium opacity-70">@ ${court}</span>`;
+    
+    const durSelect = document.getElementById("guest-duration");
+    if(durSelect) durSelect.value = "1";
+    updateGuestDuration();
+    
     navTo('view-guest-form');
+}
+
+function updateGuestDuration() {
+    const durSelect = document.getElementById("guest-duration");
+    if(!durSelect) return;
+    const duration = parseInt(durSelect.value);
+    
+    for (let i = 1; i < duration; i++) {
+        let nextTime = addHours(guestBookingData.time, i);
+        let clash = bookings.find(
+            (b) =>
+                b.date === guestBookingData.date &&
+                b.time === nextTime &&
+                b.court === guestBookingData.court &&
+                b.status !== "rejected"
+        );
+        
+        if (clash) {
+            showToast(`Maaf, slot jam ${nextTime} sudah terisi. Durasi otomatis dikurangi.`, "error");
+            durSelect.value = i;
+            break;
+        }
+    }
+    
+    const finalDuration = parseInt(durSelect.value);
+    const priceDisplay = document.getElementById("guest-pay-price");
+    if(priceDisplay) priceDisplay.innerText = formatRupiah(finalDuration * 50000);
 }
 
 function submitGuestBooking(e) {
@@ -859,6 +891,10 @@ function submitGuestBooking(e) {
     
     if(!name || !phone) return showToast("Harap isi nama dan No. WhatsApp", "error");
     
+    const durSelect = document.getElementById("guest-duration");
+    const duration = durSelect ? parseInt(durSelect.value) : 1;
+    const total = duration * 50000;
+    
     const newId = bookings.length > 0 ? Math.max(...bookings.map((b) => b.id)) + 1 : 1;
     bookings.push({
         id: newId,
@@ -867,8 +903,8 @@ function submitGuestBooking(e) {
         date: guestBookingData.date,
         time: guestBookingData.time,
         court: guestBookingData.court,
-        duration: 1,
-        total: 50000,
+        duration: duration,
+        total: total,
         status: "pending",
         proof: "Bayar di Tempat"
     });
