@@ -33,8 +33,23 @@ const months = [
   "Nov",
   "Des",
 ];
-const pricePerHour = 50000;
-const courts = ["Lapangan 1", "Lapangan 2", "Lapangan 3"];
+let courtsData = JSON.parse(localStorage.getItem("gorjuara_courts")) || [
+  { name: "Lapangan 1", price: 50000 },
+  { name: "Lapangan 2", price: 50000 },
+  { name: "Lapangan 3", price: 50000 }
+];
+let courts = courtsData.map(c => c.name);
+const pricePerHour = 50000; // default for backward compat
+
+function saveCourts() {
+    localStorage.setItem("gorjuara_courts", JSON.stringify(courtsData));
+    courts = courtsData.map(c => c.name);
+}
+
+let holidays = JSON.parse(localStorage.getItem("gorjuara_holidays")) || [];
+function saveHolidays() {
+    localStorage.setItem("gorjuara_holidays", JSON.stringify(holidays));
+}
 
 let currentUser = sessionStorage.getItem("currentUser") || null;
 let selectedDate = getFutureDate(0).full;
