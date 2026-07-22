@@ -397,15 +397,37 @@ function renderAdminHolidays() {
 }
 
 function addHoliday() {
-    const date = document.getElementById("holiday-date").value;
+    const dateStr = document.getElementById("holiday-date").value;
     const reason = document.getElementById("holiday-reason").value;
-    if (!date || !reason) return showToast("Isi tanggal dan keterangan!", "error");
+    const durationInput = document.getElementById("holiday-duration");
+    const duration = durationInput && durationInput.value ? parseInt(durationInput.value) : 1;
     
-    holidays.push({ date, reason });
+    if (!dateStr || !reason || duration < 1) return showToast("Isi tanggal, lama hari, dan keterangan!", "error");
+    
+    let addedCount = 0;
+    const startDate = new Date(dateStr);
+    
+    for (let i = 0; i < duration; i++) {
+        const currentDate = new Date(startDate);
+        currentDate.setDate(startDate.getDate() + i);
+        const yyyy = currentDate.getFullYear();
+        const mm = String(currentDate.getMonth() + 1).padStart(2, '0');
+        const dd = String(currentDate.getDate()).padStart(2, '0');
+        const formattedDate = `${yyyy}-${mm}-${dd}`;
+        
+        // Prevent duplicate if already exists
+        if (!holidays.some(h => h.date === formattedDate)) {
+            holidays.push({ date: formattedDate, reason });
+            addedCount++;
+        }
+    }
+    
     saveHolidays();
     document.getElementById("holiday-date").value = "";
     document.getElementById("holiday-reason").value = "";
-    showToast("Jadwal libur ditambahkan!", "success");
+    if (durationInput) durationInput.value = "1";
+    
+    showToast(addedCount > 0 ? `${addedCount} hari libur ditambahkan!` : "Jadwal libur sudah ada!", addedCount > 0 ? "success" : "error");
     renderAdminHolidays();
 }
 
