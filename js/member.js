@@ -300,9 +300,8 @@ function renderHistory() {
   const container = document.getElementById("member-history");
   if (!container) return;
 
-  const list = bookings
-    .filter((b) => b.user === currentUser)
-    .sort((a, b) => b.id - a.id);
+  const filteredList = bookings.filter((b) => b.user === currentUser);
+  const list = groupBookings(filteredList);
 
   if (list.length === 0) {
     container.innerHTML = `
@@ -345,7 +344,7 @@ function renderHistory() {
                 }</h4>
                 <p class="text-xs text-white/50 font-bold mt-0.5">${
                   b.time
-                } WIB</p>
+                } WIB ${b.durationInfo ? `<span class="bg-primary-500/20 text-primary-200 px-1.5 py-0.5 rounded font-black border border-primary-500/30 ml-2 text-[10px]">${b.durationInfo}</span>` : ""}</p>
             </div>
             <div class="flex items-center gap-1.5 bg-black/20 px-2 py-1 rounded-lg border border-white/5">
                 <span class="w-1.5 h-1.5 rounded-full ${statusColor}"></span>
