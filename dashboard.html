@@ -527,6 +527,30 @@
       </div>
     </div>
 
+    <div
+      id="custom-confirm-modal"
+      class="hidden fixed inset-0 z-[120] flex items-center justify-center bg-black/80 backdrop-blur-sm transition-opacity duration-300"
+    >
+      <div
+        id="custom-confirm-box"
+        class="bg-primary-900 border border-white/10 p-6 rounded-[2rem] w-full max-w-xs text-center shadow-2xl transform scale-95 opacity-0 transition-all duration-300"
+      >
+        <div
+          class="w-16 h-16 bg-amber-500/20 text-amber-500 rounded-full flex items-center justify-center mx-auto mb-6"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-black text-white mb-2">Konfirmasi</h3>
+        <p id="custom-confirm-msg" class="text-white/60 mb-8 text-sm">Apakah Anda yakin?</p>
+        <div class="flex gap-3">
+          <button id="custom-confirm-btn-cancel" class="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white font-bold rounded-xl transition border border-white/5 text-sm">Batal</button>
+          <button id="custom-confirm-btn-ok" class="flex-1 py-3 bg-accent-600 hover:bg-accent-500 text-white font-bold rounded-xl transition shadow-lg shadow-accent-600/20 text-sm">Ya, Yakin</button>
+        </div>
+      </div>
+    </div>
+
     <div id="toast-container" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-[100] flex flex-col gap-3 pointer-events-none"></div>
     <script src="js/data.js"></script>
     <script src="js/auth.js"></script>

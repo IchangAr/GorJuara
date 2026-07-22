@@ -1,3 +1,51 @@
+// --- CUSTOM CONFIRM MODAL ---
+function showCustomConfirm(message) {
+  return new Promise((resolve) => {
+    const modal = document.getElementById("custom-confirm-modal");
+    const box = document.getElementById("custom-confirm-box");
+    const msg = document.getElementById("custom-confirm-msg");
+    const btnCancel = document.getElementById("custom-confirm-btn-cancel");
+    const btnOk = document.getElementById("custom-confirm-btn-ok");
+    
+    if (!modal) {
+        resolve(window.confirm(message));
+        return;
+    }
+    
+    msg.innerText = message;
+    modal.classList.remove("hidden");
+    
+    setTimeout(() => {
+        box.classList.remove("scale-95", "opacity-0");
+        box.classList.add("scale-100", "opacity-100");
+    }, 10);
+    
+    const cleanup = () => {
+        box.classList.remove("scale-100", "opacity-100");
+        box.classList.add("scale-95", "opacity-0");
+        setTimeout(() => {
+            modal.classList.add("hidden");
+        }, 300);
+        btnCancel.removeEventListener("click", onCancel);
+        btnOk.removeEventListener("click", onOk);
+    };
+    
+    const onCancel = () => { cleanup(); resolve(false); };
+    const onOk = () => { cleanup(); resolve(true); };
+    
+    btnCancel.addEventListener("click", onCancel);
+    btnOk.addEventListener("click", onOk);
+  });
+}
+
+async function memberCancelBooking(groupId) {
+    const confirmed = await showCustomConfirm("Apakah Anda yakin ingin membatalkan pesanan ini? Permintaan akan dikirim ke admin untuk disetujui.");
+    if (!confirmed) return;
+    cancelBooking(groupId);
+    showToast("Permintaan pembatalan telah dikirim ke admin.", "success");
+    renderHistory();
+}
+
 // --- 4. OTENTIKASI & PROFIL ---
 function loadProfile() {
   const users = JSON.parse(localStorage.getItem("gorjuara_users")) || [];
@@ -321,19 +369,27 @@ function renderHistory() {
           ? "bg-emerald-500 shadow-[0_0_8px_#10b981]"
           : b.status === "pending"
           ? "bg-accent-500 shadow-[0_0_8px_#f59e0b]"
+          : b.status === "cancel-pending"
+          ? "bg-amber-500 shadow-[0_0_8px_#f59e0b]"
           : "bg-red-500";
       let statusText =
         b.status === "booked"
           ? "LUNAS"
           : b.status === "pending"
           ? "PROSES"
+          : b.status === "cancel-pending"
+          ? "MENUNGGU BATAL"
           : "GAGAL";
       let statusTextColor =
         b.status === "booked"
           ? "text-emerald-400"
           : b.status === "pending"
           ? "text-accent-400"
+          : b.status === "cancel-pending"
+          ? "text-amber-400"
           : "text-red-400";
+
+      const canCancel = b.status === "pending" || b.status === "booked";
 
       return `
       <div class="relative bg-white/5 hover:bg-white/10 border border-white/5 rounded-2xl p-4 transition-all group cursor-default shadow-sm hover:shadow-md">
@@ -362,7 +418,14 @@ function renderHistory() {
                  }</span>
              </div>
              ${
-               b.status === "booked"
+               canCancel
+                 ? `<button onclick="memberCancelBooking(${b.groupId || b.id})" class="flex items-center gap-1.5 text-[10px] font-bold text-red-300 bg-red-500/10 hover:bg-red-500/20 px-3 py-1.5 rounded-lg border border-red-500/20 hover:border-red-500/30 transition">
+                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                     Batalkan
+                   </button>`
+                 : b.status === "cancel-pending"
+                 ? `<span class="text-[10px] font-bold text-amber-300/70 italic">Menunggu konfirmasi admin</span>`
+                 : b.status === "booked"
                  ? '<svg class="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>'
                  : ""
              }
