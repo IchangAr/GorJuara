@@ -389,21 +389,37 @@ function renderAdminCourts() {
     if (!list) return;
     
     list.innerHTML = courtsData.map((c, idx) => `
-        <div class="bg-black/20 p-5 rounded-2xl border border-white/5 flex flex-col gap-4">
-            <div class="flex justify-between items-center">
-                <input type="text" value="${c.name}" onchange="updateCourtName(${idx}, this.value)" class="font-bold text-white bg-transparent border-b border-transparent hover:border-white/20 focus:border-emerald-500 outline-none w-full mr-2 pb-1" title="Ubah Nama">
-                <button onclick="deleteCourt(${idx})" class="text-red-400 hover:text-red-300 shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+        <div class="bg-black/20 p-5 rounded-2xl border border-white/5 flex flex-col gap-4" id="court-card-${idx}">
+            <div class="flex justify-between items-start gap-2">
+                <div class="flex-1">
+                    <label class="text-[10px] uppercase font-bold text-white/50 block mb-1">Nama Lapangan</label>
+                    <input type="text" id="court-name-${idx}" value="${c.name}" oninput="markCourtDirty(${idx})" class="font-bold text-white bg-transparent border-b border-white/20 hover:border-white/30 focus:border-emerald-500 outline-none w-full pb-1 text-base">
+                </div>
+                <button onclick="deleteCourt(${idx})" class="text-red-400 hover:text-red-300 shrink-0 mt-5"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
             </div>
             <div>
                 <label class="text-[10px] uppercase font-bold text-white/50 block mb-1">Harga/Jam</label>
                 <div class="flex items-center gap-2">
                     <span class="text-xs text-white/40">Rp</span>
-                    <input type="text" value="${formatRupiah(c.price).replace('Rp ', '')}" onchange="updateCourtPrice(${idx}, this.value)" oninput="this.value = formatRupiahText(this.value)" class="w-full bg-transparent border-b border-white/20 text-white outline-none focus:border-emerald-500 py-1" title="Ubah Harga">
+                    <input type="text" id="court-price-${idx}" value="${formatRupiahText(c.price.toString())}" oninput="this.value = formatRupiahText(this.value); markCourtDirty(${idx})" class="w-full bg-transparent border-b border-white/20 text-white outline-none focus:border-emerald-500 py-1">
                 </div>
             </div>
+            <button id="court-save-btn-${idx}" onclick="saveCourtEdits(${idx})" class="hidden items-center justify-center gap-2 w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-bold rounded-xl transition shadow-lg shadow-emerald-600/20">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                Simpan Perubahan
+            </button>
         </div>
     `).join("");
 }
+
+function markCourtDirty(idx) {
+    const btn = document.getElementById(`court-save-btn-${idx}`);
+    if (btn) {
+        btn.classList.remove("hidden");
+        btn.classList.add("flex");
+    }
+}
+
 
 function addNewCourt() {
     const name = document.getElementById("new-court-name").value;
@@ -419,26 +435,23 @@ function addNewCourt() {
     renderAdminCourts();
 }
 
-async function updateCourtPrice(idx, newPrice) {
-    if (!(await showCustomConfirm("Apakah Anda yakin ingin mengubah harga lapangan ini?"))) {
-        renderAdminCourts(); // Re-render to reset the input value
-        return;
-    }
-    if (newPrice) courtsData[idx].price = parseInt(newPrice.replace(/\./g, ''));
+async function saveCourtEdits(idx) {
+    const nameInput = document.getElementById(`court-name-${idx}`);
+    const priceInput = document.getElementById(`court-price-${idx}`);
+    const newName = nameInput ? nameInput.value.trim() : courtsData[idx].name;
+    const rawPrice = priceInput ? priceInput.value.replace(/\./g, '') : '';
+    const newPrice = parseInt(rawPrice);
+
+    if (!newName) return showToast("Nama tidak boleh kosong!", "error");
+    if (!rawPrice || isNaN(newPrice) || newPrice < 1) return showToast("Harga tidak valid!", "error");
+
+    courtsData[idx].name = newName;
+    courtsData[idx].price = newPrice;
     saveCourts();
-    showToast("Harga diperbarui!", "success");
+    showToast("Lapangan berhasil disimpan!", "success");
+    renderAdminCourts();
 }
 
-async function updateCourtName(idx, newName) {
-    if (!newName) return renderAdminCourts();
-    if (!(await showCustomConfirm(`Apakah Anda yakin ingin mengubah nama lapangan menjadi "${newName}"?`))) {
-        renderAdminCourts();
-        return;
-    }
-    courtsData[idx].name = newName;
-    saveCourts();
-    showToast("Nama lapangan diperbarui!", "success");
-}
 
 async function deleteCourt(idx) {
     if (!(await showCustomConfirm("Apakah Anda yakin ingin menghapus lapangan ini? Data yang terkait mungkin akan terpengaruh."))) return;
