@@ -404,7 +404,7 @@ function renderAdminCourts() {
                     <input type="text" id="court-price-${idx}" value="${formatRupiahText(c.price.toString())}" oninput="this.value = formatRupiahText(this.value); markCourtDirty(${idx})" class="w-full bg-transparent border-b border-white/20 text-white outline-none focus:border-emerald-500 py-1">
                 </div>
             </div>
-            <button id="court-save-btn-${idx}" onclick="saveCourtEdits(${idx})" class="hidden items-center justify-center gap-2 w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-bold rounded-xl transition shadow-lg shadow-emerald-600/20">
+            <button id="court-save-btn-${idx}" onclick="saveCourtEdits(${idx})" disabled class="flex items-center justify-center gap-2 w-full py-2.5 bg-white/5 text-white/30 text-sm font-bold rounded-xl transition border border-white/5 cursor-not-allowed">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                 Simpan Perubahan
             </button>
@@ -415,8 +415,8 @@ function renderAdminCourts() {
 function markCourtDirty(idx) {
     const btn = document.getElementById(`court-save-btn-${idx}`);
     if (btn) {
-        btn.classList.remove("hidden");
-        btn.classList.add("flex");
+        btn.disabled = false;
+        btn.className = "flex items-center justify-center gap-2 w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-bold rounded-xl transition shadow-lg shadow-emerald-600/20 cursor-pointer animate-pulse";
     }
 }
 
