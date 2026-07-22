@@ -264,10 +264,10 @@ function renderSlots() {
   times.forEach((time) => {
     const row = document.createElement("div");
     row.className =
-      "group relative bg-white/5 p-5 rounded-[1.5rem] border border-white/5 shadow-lg flex flex-col md:flex-row gap-6 items-center hover:border-white/20 transition-all";
+      "group relative bg-white/5 p-4 md:p-5 rounded-[1.5rem] border border-white/5 shadow-lg flex flex-col md:flex-row gap-4 md:gap-6 items-start md:items-center hover:border-white/20 transition-all";
 
     row.innerHTML = `
-        <div class="flex flex-row md:flex-col items-center gap-2 md:w-24 md:border-r md:border-white/10 md:pr-6">
+        <div class="flex flex-row md:flex-col items-center gap-3 md:w-24 md:border-r md:border-white/10 md:pr-6 w-full pb-3 md:pb-0 border-b md:border-b-0 border-white/10">
             <div class="bg-primary-900 text-primary-300 p-2 rounded-xl border border-white/10">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
             </div>
@@ -276,7 +276,7 @@ function renderSlots() {
     `;
 
     const courtsContainer = document.createElement("div");
-    courtsContainer.className = "flex-1 grid grid-cols-3 gap-3 w-full";
+    courtsContainer.className = "flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 w-full";
 
     const slotHour = parseInt(time.split(":")[0]);
 
