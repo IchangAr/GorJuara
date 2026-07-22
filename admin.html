@@ -371,6 +371,53 @@
         </div>
       </div>
     </main>
+
+    <div
+      id="logout-modal"
+      class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm transition-opacity duration-300"
+    >
+      <div
+        class="bg-primary-900 border border-white/10 p-8 rounded-3xl w-full max-w-sm text-center shadow-2xl transform scale-95 opacity-0 transition-all duration-300"
+      >
+        <div
+          class="w-16 h-16 bg-red-500/20 text-red-500 rounded-full flex items-center justify-center mx-auto mb-6"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-8 w-8"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+            />
+          </svg>
+        </div>
+        <h3 class="text-2xl font-black text-white mb-2">Mau istirahat?</h3>
+        <p class="text-white/50 mb-8 text-sm">
+          Anda harus login lagi nanti untuk masuk ke panel admin.
+        </p>
+        <div class="flex gap-3">
+          <button
+            onclick="closeLogoutModal()"
+            class="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white font-bold rounded-xl transition border border-white/5"
+          >
+            Batal
+          </button>
+          <button
+            onclick="confirmLogout()"
+            class="flex-1 py-3 bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl transition shadow-lg shadow-red-600/20"
+          >
+            Keluar
+          </button>
+        </div>
+      </div>
+    </div>
+
     <script src="js/script.js"></script>
     <style>
       .animate-fade-in {
