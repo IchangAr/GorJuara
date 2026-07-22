@@ -524,7 +524,7 @@ function renderHistory() {
 // --- 6. ADMIN ---
 function setAdminTab(tabName) {
   currentAdminTab = tabName;
-  ["pending", "schedule", "history"].forEach((t) => {
+  ["pending", "schedule", "history", "register"].forEach((t) => {
     const btn = document.getElementById(`btn-${t}`);
     const content = document.getElementById(`admin-content-${t}`);
 
@@ -546,12 +546,31 @@ function setAdminTab(tabName) {
         "text-primary-300",
         "hover:bg-white/5",
         "hover:border-white/5",
-        "hover:text-white"
+        "text-primary-200", "hover:text-white"
       );
       content.classList.add("hidden");
     }
   });
   renderAdminDashboard();
+}
+
+function adminRegisterMember(e) {
+  e.preventDefault();
+  const username = document.getElementById("reg-username").value;
+  const pass = document.getElementById("reg-password").value;
+  
+  if(!username || !pass) return showToast("Semua field harus diisi", "error");
+  
+  let registered = JSON.parse(localStorage.getItem("gorjuara_users")) || [];
+  if (registered.some(u => u.username === username)) {
+      return showToast("Username sudah digunakan", "error");
+  }
+  
+  registered.push({ username, pass });
+  localStorage.setItem("gorjuara_users", JSON.stringify(registered));
+  
+  showToast(`Member ${username} berhasil didaftarkan!`, "success");
+  document.getElementById("form-register-member").reset();
 }
 
 function renderAdminDashboard() {

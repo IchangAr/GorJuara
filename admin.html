@@ -119,6 +119,18 @@
               >
               <span class="font-bold text-sm">Riwayat</span>
             </button>
+            <button
+              onclick="setAdminTab('register')"
+              id="btn-register"
+              class="w-full text-left p-4 rounded-2xl flex items-center gap-4 transition-all hover:bg-white/5 border border-transparent text-primary-200 hover:text-white group"
+            >
+              <span
+                class="bg-primary-800 w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold shadow-md text-emerald-400 group-hover:text-white transition"
+              >
+                +
+              </span>
+              <span class="font-bold text-sm">Member Baru</span>
+            </button>
           </nav>
         </div>
 
@@ -367,6 +379,31 @@
                 </table>
               </div>
             </div>
+          </div>
+
+          <div id="admin-content-register" class="hidden animate-fade-in">
+             <div class="bg-white/5 backdrop-blur-md p-6 md:p-10 rounded-[2rem] border border-white/10 max-w-lg shadow-xl">
+                <div class="flex items-center gap-4 mb-2">
+                  <div class="w-12 h-12 bg-emerald-500/20 text-emerald-400 rounded-xl flex items-center justify-center">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
+                  </div>
+                  <h4 class="font-black text-2xl text-white">Daftar Member</h4>
+                </div>
+                <p class="text-primary-200 text-sm mb-8">Buat akun resmi untuk pelanggan agar mereka bisa login dan memesan secara mandiri.</p>
+                <form id="form-register-member" onsubmit="adminRegisterMember(event)" class="space-y-5">
+                  <div>
+                    <label class="block text-xs font-bold text-primary-300 uppercase tracking-widest mb-2">Username (ID Login)</label>
+                    <input type="text" id="reg-username" required class="w-full px-5 py-4 rounded-xl bg-black/20 border border-white/10 focus:border-accent-500 outline-none text-white text-sm" placeholder="Contoh: budi123">
+                  </div>
+                  <div>
+                    <label class="block text-xs font-bold text-primary-300 uppercase tracking-widest mb-2">Password Sementara</label>
+                    <input type="text" id="reg-password" required class="w-full px-5 py-4 rounded-xl bg-black/20 border border-white/10 focus:border-accent-500 outline-none text-white text-sm" placeholder="Masukkan password...">
+                  </div>
+                  <button type="submit" class="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl shadow-xl shadow-emerald-600/20 transition-all mt-4">
+                    Buat Akun Member
+                  </button>
+                </form>
+             </div>
           </div>
         </div>
       </div>
