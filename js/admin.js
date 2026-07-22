@@ -252,17 +252,21 @@ function renderAdminHistory() {
     .filter((b) => b.status !== "maintenance")
     .sort((a, b) => b.id - a.id);
 
-  list.innerHTML = history
+  const groupedHistory = groupBookings(history);
+
+  list.innerHTML = groupedHistory
     .map(
       (b, index) => `
         <tr class="transition border-b border-white/5 last:border-0 ${
           index % 2 === 0 ? "bg-transparent" : "bg-white/5"
         } hover:bg-white/10">
-            <td class="p-5"><div class="font-black text-white text-sm">${
-              b.date
-            }</div><div class="text-xs font-bold text-primary-300 uppercase mt-1">${
-        b.time
-      } WIB • <span class="text-white/60">${b.court || "-"}</span></div></td>
+            <td class="p-5">
+              <div class="font-black text-white text-sm">${b.date}</div>
+              <div class="text-xs font-bold text-primary-300 uppercase mt-1">
+                ${b.time} WIB • <span class="text-white/60">${b.court || "-"}</span>
+                ${b.durationInfo ? `<span class="bg-primary-500/20 text-primary-200 text-[10px] px-1.5 py-0.5 rounded font-bold border border-primary-500/30 ml-1">${b.durationInfo}</span>` : ""}
+              </div>
+            </td>
             <td class="p-5 font-bold text-primary-200 text-sm">${b.user}</td>
             <td class="p-5"><span class="px-2 py-1 rounded text-[10px] font-black uppercase tracking-wider ${
               b.status === "booked"
@@ -274,7 +278,7 @@ function renderAdminHistory() {
             <td class="p-5 text-right">
                 ${
                   b.status === "booked"
-                    ? `<button onclick="updateStatus(${b.id}, 'rejected')" class="text-[10px] text-red-300 font-bold hover:bg-red-500/20 px-3 py-1.5 rounded transition border border-red-500/20">Batalkan</button>`
+                    ? `<button onclick="updateStatus(${b.groupId || b.id}, 'rejected')" class="text-[10px] text-red-300 font-bold hover:bg-red-500/20 px-3 py-1.5 rounded transition border border-red-500/20">Batalkan</button>`
                     : "-"
                 }
             </td>
