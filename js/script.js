@@ -714,7 +714,9 @@ function renderAdminPending(pendingList) {
     return;
   }
 
-  container.innerHTML = pendingList
+  const groupedPending = groupBookings(pendingList);
+  
+  container.innerHTML = groupedPending
     .map(
       (b) => `
         <div class="bg-white/5 p-6 rounded-[2rem] border border-white/10 shadow-sm flex flex-col md:flex-row justify-between items-center gap-6 hover:bg-white/10 transition">
@@ -739,15 +741,21 @@ function renderAdminPending(pendingList) {
                         ? `<span class="bg-primary-500/20 text-primary-200 text-[10px] px-2 py-0.5 rounded font-bold border border-primary-500/30">${b.durationInfo}</span>`
                         : ""
                     }
+                    ${
+                      b.status === "cancel-pending"
+                        ? `<span class="bg-amber-500/20 text-amber-300 text-[10px] px-2 py-0.5 rounded font-bold border border-amber-500/30 ml-2">(Minta Batal)</span>`
+                        : ""
+                    }
                 </div>
             </div>
             <div class="flex gap-3 w-full md:w-auto">
-                <button onclick="updateStatus(${
-                  b.id
-                }, 'booked')" class="flex-1 md:flex-none px-8 py-3 bg-emerald-600 text-white rounded-xl font-bold hover:bg-emerald-500 shadow-lg shadow-emerald-600/20 transition">Terima</button>
-                <button onclick="updateStatus(${
-                  b.id
-                }, 'rejected')" class="flex-1 md:flex-none px-8 py-3 bg-transparent border border-white/20 text-white/50 rounded-xl font-bold hover:bg-red-500/20 hover:text-red-300 hover:border-red-500/30 transition">Tolak</button>
+                ${
+                  b.status === "cancel-pending"
+                    ? `<button onclick="updateStatus(${b.groupId || b.id}, 'rejected')" class="flex-1 md:flex-none px-8 py-3 bg-red-600 text-white rounded-xl font-bold hover:bg-red-500 shadow-lg shadow-red-600/20 transition text-sm">Setujui Batal</button>
+                       <button onclick="updateStatus(${b.groupId || b.id}, 'booked')" class="flex-1 md:flex-none px-8 py-3 bg-transparent border border-white/20 text-white/50 rounded-xl font-bold hover:bg-white/5 transition text-sm">Tolak Batal</button>`
+                    : `<button onclick="updateStatus(${b.groupId || b.id}, 'booked')" class="flex-1 md:flex-none px-8 py-3 bg-emerald-600 text-white rounded-xl font-bold hover:bg-emerald-500 shadow-lg shadow-emerald-600/20 transition">Terima</button>
+                       <button onclick="updateStatus(${b.groupId || b.id}, 'rejected')" class="flex-1 md:flex-none px-8 py-3 bg-transparent border border-white/20 text-white/50 rounded-xl font-bold hover:bg-red-500/20 hover:text-red-300 hover:border-red-500/30 transition">Tolak</button>`
+                }
             </div>
         </div>`
     )
