@@ -815,14 +815,11 @@ function renderPublic() {
             b.court === court &&
             b.status !== "rejected"
         );
-        const color = isBooked
-          ? "bg-red-500/10 text-red-400 border border-red-500/20"
-          : "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30";
-
-        courtsInfo += `<div class="${color} text-[10px] font-bold px-2 py-1 rounded-md flex-1 text-center">${court.replace(
-          "Lapangan ",
-          "L"
-        )}</div>`;
+        if (isBooked) {
+          courtsInfo += `<div class="bg-red-500/10 text-red-400 border border-red-500/20 text-[10px] font-bold px-2 py-1 rounded-md flex-1 text-center cursor-not-allowed opacity-50">${court.replace("Lapangan ", "L")}</div>`;
+        } else {
+          courtsInfo += `<button onclick="guestBook('${d}', '${time}', '${court}')" class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold px-2 py-1 rounded-md flex-1 text-center hover:bg-emerald-500 hover:text-white transition cursor-pointer shadow-sm shadow-emerald-500/10">${court.replace("Lapangan ", "L")}</button>`;
+        }
       });
 
       slotsHTML += `
@@ -842,6 +839,54 @@ function renderPublic() {
     `;
     container.appendChild(card);
   });
+}
+
+// --- 7B. GUEST BOOKING ---
+let guestBookingData = null;
+function guestBook(date, time, court) {
+    guestBookingData = { date, time, court };
+    const labelDate = document.getElementById("guest-pay-date");
+    const labelTime = document.getElementById("guest-pay-time");
+    if(labelDate) labelDate.innerText = date;
+    if(labelTime) labelTime.innerHTML = `${time} <span class="font-medium opacity-70">@ ${court}</span>`;
+    navTo('view-guest-form');
+}
+
+function submitGuestBooking(e) {
+    e.preventDefault();
+    const name = document.getElementById("guest-name").value;
+    const phone = document.getElementById("guest-phone").value;
+    
+    if(!name || !phone) return alert("Harap isi nama dan No. WhatsApp");
+    
+    const newId = bookings.length > 0 ? Math.max(...bookings.map((b) => b.id)) + 1 : 1;
+    bookings.push({
+        id: newId,
+        user: name,
+        member: name + " (Guest)", // Identify as guest
+        date: guestBookingData.date,
+        time: guestBookingData.time,
+        court: guestBookingData.court,
+        duration: 1,
+        total: 50000,
+        status: "pending",
+        proof: "Bayar di Tempat"
+    });
+    
+    saveToStorage();
+    
+    const btn = document.getElementById("guest-btn-pay");
+    btn.innerHTML = `Mengecek slot...`;
+    btn.disabled = true;
+    
+    setTimeout(() => {
+        alert("Booking Berhasil! Silakan datang ke lapangan dan tunjukkan pesan WhatsApp atau nama Anda.");
+        btn.innerHTML = `Booking Sekarang`;
+        btn.disabled = false;
+        document.getElementById("guest-form").reset();
+        navTo('view-landing');
+        renderPublic(); // Refresh schedule
+    }, 1500);
 }
 
 // --- 8. INITIALIZATION ---

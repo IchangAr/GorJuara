@@ -103,14 +103,60 @@
             </button>
             <div class="text-center mb-10">
               <h3 class="text-3xl font-black text-white">
-                Ketersediaan Lapangan
+                Pilih Jadwal
               </h3>
               <p class="text-primary-200">
-                Pantau slot kosong secara real-time.
+                Klik pada jadwal yang kosong (hijau) untuk Booking.
               </p>
             </div>
 
             <div id="public-list" class="grid md:grid-cols-2 gap-8 pb-20"></div>
+          </section>
+
+          <section
+            id="view-guest-form"
+            class="page-section hidden flex-col pt-10 max-w-xl mx-auto w-full"
+          >
+            <button
+              onclick="navTo('view-schedule-public')"
+              class="mb-6 font-bold text-white/70 hover:text-white flex items-center gap-2 w-fit bg-white/10 px-4 py-2 rounded-full backdrop-blur-sm transition"
+            >
+              &larr; Batal
+            </button>
+            <div class="bg-black/20 backdrop-blur-xl p-6 md:p-8 rounded-[2rem] border border-white/10 shadow-xl w-full">
+              <h2 class="text-2xl font-black text-white mb-6">Selesaikan Booking</h2>
+              
+              <div class="bg-primary-900/50 rounded-2xl p-4 border border-white/5 mb-6 flex justify-between items-center">
+                <div>
+                  <p class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest mb-1">Jadwal Terpilih</p>
+                  <p class="text-lg font-bold text-white" id="guest-pay-date">-</p>
+                  <p class="text-white/70 text-sm mt-1" id="guest-pay-time">-</p>
+                </div>
+                <div class="text-right">
+                  <p class="text-2xl font-black text-white">Rp 50.000</p>
+                </div>
+              </div>
+
+              <form id="guest-form" onsubmit="submitGuestBooking(event)" class="space-y-5">
+                <div>
+                  <label class="block text-xs font-bold text-primary-200 mb-2 uppercase tracking-widest">Nama Lengkap</label>
+                  <input type="text" id="guest-name" required class="w-full px-4 py-3 rounded-xl bg-black/20 border border-white/20 focus:border-accent-500 outline-none text-white text-sm" placeholder="Contoh: Budi Santoso">
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-primary-200 mb-2 uppercase tracking-widest">No. WhatsApp</label>
+                  <input type="number" id="guest-phone" required class="w-full px-4 py-3 rounded-xl bg-black/20 border border-white/20 focus:border-accent-500 outline-none text-white text-sm" placeholder="Contoh: 08123456789">
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-primary-200 mb-2 uppercase tracking-widest">Metode Pembayaran</label>
+                  <div class="flex items-center gap-4 p-4 rounded-xl border border-accent-500 bg-accent-500/10">
+                    <span class="text-sm font-bold text-white">Transfer / QRIS (Bayar di tempat)</span>
+                  </div>
+                </div>
+                <button type="submit" id="guest-btn-pay" class="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl shadow-xl shadow-emerald-500/20 transition-all mt-4">
+                  Booking Sekarang
+                </button>
+              </form>
+            </div>
           </section>
         </div>
       </div>
