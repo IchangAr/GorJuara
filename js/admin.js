@@ -289,6 +289,7 @@ function renderAdminHistory() {
 
 function toggleMaintenance(time, action, id = null, court = null) {
   if (action === "add") {
+    if (!confirm(`Tutup ${court} jam ${time} untuk maintenance?`)) return;
     if (!court) return;
     bookings.push({
       id: Date.now(),
@@ -300,6 +301,7 @@ function toggleMaintenance(time, action, id = null, court = null) {
     });
     showToast(`${court} jam ${time} ditutup.`);
   } else {
+    if (!confirm(`Buka kembali slot ini?`)) return;
     const idx = bookings.findIndex((b) => b.id === id);
     if (idx > -1) bookings.splice(idx, 1);
     showToast(`Slot dibuka kembali.`);
@@ -309,6 +311,12 @@ function toggleMaintenance(time, action, id = null, court = null) {
 }
 
 function updateStatus(idOrGroupId, newStatus) {
+  if (newStatus === 'rejected') {
+      if (!confirm("Apakah Anda yakin ingin menolak atau membatalkan pesanan ini?")) return;
+  } else if (newStatus === 'booked') {
+      if (!confirm("Terima pesanan ini?")) return;
+  }
+  
   // If idOrGroupId is string and looks like timestamp (length > 10) it might be groupId
   // We just update ALL bookings that have this groupId or id
   let updatedCount = 0;
@@ -364,12 +372,17 @@ function addNewCourt() {
 }
 
 function updateCourtPrice(idx, newPrice) {
+    if (!confirm("Apakah Anda yakin ingin mengubah harga lapangan ini?")) {
+        renderAdminCourts(); // Re-render to reset the input value
+        return;
+    }
     if (newPrice) courtsData[idx].price = parseInt(newPrice);
     saveCourts();
     showToast("Harga diperbarui!", "success");
 }
 
 function deleteCourt(idx) {
+    if (!confirm("Apakah Anda yakin ingin menghapus lapangan ini? Data yang terkait mungkin akan terpengaruh.")) return;
     courtsData.splice(idx, 1);
     saveCourts();
     showToast("Lapangan dihapus!", "success");
@@ -432,6 +445,7 @@ function addHoliday() {
 }
 
 function deleteHoliday(idx) {
+    if (!confirm("Apakah Anda yakin ingin menghapus jadwal libur ini?")) return;
     holidays.splice(idx, 1);
     saveHolidays();
     showToast("Jadwal libur dihapus!", "success");
