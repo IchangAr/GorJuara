@@ -1,5 +1,5 @@
 // --- 3. NAVIGASI ---
-function navTo(viewId) {
+function navTo(viewId, push = true) {
   const path = window.location.pathname;
 
   if (viewId === "view-landing" || viewId === "view-schedule-public") {
@@ -48,7 +48,24 @@ function navTo(viewId) {
   if (viewId === "view-admin") renderAdminDashboard();
   if (viewId === "view-dashboard") renderHistory();
   if (viewId === "view-profile") loadProfile();
+  
+  if (push) {
+    history.pushState({ viewId }, "", "");
+  }
 }
+
+window.addEventListener("popstate", (e) => {
+  if (e.state && e.state.viewId) {
+    navTo(e.state.viewId, false);
+  }
+  
+  // Also close any open modals when navigating back
+  const logoutModal = document.getElementById("logout-modal");
+  if (logoutModal && !logoutModal.classList.contains("hidden")) {
+      closeLogoutModal();
+  }
+});
+
 
 function togglePassword(inputId, iconId) {
   const input = document.getElementById(inputId);

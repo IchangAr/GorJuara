@@ -160,9 +160,10 @@
                     <span class="text-sm font-bold text-white">Transfer / QRIS (Bayar di tempat)</span>
                   </div>
                 </div>
-                <button type="submit" id="guest-btn-pay" class="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl shadow-xl shadow-emerald-500/20 transition-all mt-4">
-                  Booking Sekarang
-                </button>
+                <div class="flex gap-3 mt-4">
+                  <button type="button" onclick="navTo('view-schedule-public')" class="w-1/3 py-4 bg-white/5 hover:bg-white/10 text-white font-bold rounded-2xl transition-all border border-white/10">Batal</button>
+                  <button type="submit" id="guest-btn-pay" class="w-2/3 py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl shadow-xl shadow-emerald-500/20 transition-all">Booking Sekarang</button>
+                </div>
               </form>
             </div>
           </section>
