@@ -1,564 +1,404 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard Member - GOR JUARA</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          fontFamily: { sans: ['"Plus Jakarta Sans"', "sans-serif"] },
-          extend: {
-            colors: {
-              primary: {
-                950: "#022c22",
-                900: "#064e3b",
-                800: "#065f46",
-                500: "#10b981",
-              },
-              accent: { 500: "#f59e0b", 600: "#d97706" },
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Member - GORJUARA</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        fontFamily: { sans: ['"Plus Jakarta Sans"', "sans-serif"] },
+        extend: {
+          colors: {
+            primary: {
+              950: "#022c22",
+              900: "#064e3b",
+              800: "#065f46",
+              500: "#10b981",
             },
+            accent: { 500: "#f59e0b", 600: "#d97706" },
           },
         },
-      };
-    </script>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="css/style.css" />
-  </head>
+      },
+    };
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
 
-  <body
-    class="bg-primary-900 text-white min-h-screen lg:h-screen lg:overflow-hidden flex flex-col relative selection:bg-accent-500 selection:text-white"
-  >
-    <div
-      class="fixed inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-repeat z-0 pointer-events-none"
-    ></div>
-    <div
-      class="fixed top-[-20%] left-[-20%] w-[800px] h-[800px] bg-primary-700 rounded-full blur-[150px] opacity-50 z-0 pointer-events-none"
-    ></div>
+<body
+  class="bg-primary-900 text-white min-h-screen lg:h-screen lg:overflow-hidden flex flex-col relative selection:bg-accent-500 selection:text-white">
+  <div
+    class="fixed inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-repeat z-0 pointer-events-none">
+  </div>
+  <div
+    class="fixed top-[-20%] left-[-20%] w-[800px] h-[800px] bg-primary-700 rounded-full blur-[150px] opacity-50 z-0 pointer-events-none">
+  </div>
 
-    <header
-      class="w-full z-30 shrink-0 h-20 flex items-center border-b border-white/5 bg-black/10 backdrop-blur-sm sticky top-0 lg:relative"
-    >
-      <div
-        class="w-full max-w-6xl mx-auto px-6 flex items-center justify-between"
-      >
+  <header
+    class="w-full z-30 shrink-0 h-20 flex items-center border-b border-white/5 bg-black/10 backdrop-blur-sm sticky top-0 lg:relative">
+    <div class="w-full max-w-6xl mx-auto px-6 flex items-center justify-between">
+      <div class="flex items-center gap-3 cursor-pointer group" onclick="navTo('view-dashboard')">
         <div
-          class="flex items-center gap-3 cursor-pointer group"
-          onclick="navTo('view-dashboard')"
-        >
-          <div
-            class="h-10 w-10 bg-gradient-to-br from-accent-500 to-orange-600 rounded-xl flex items-center justify-center text-white font-black text-xs shadow-lg shadow-orange-500/20 group-hover:scale-105 transition"
-          >
-            <img
-              src="assets/LogoKecil.png"
-              onerror="this.style.display='none'"
-              class="h-full w-full object-cover rounded-xl"
-            />
-            <span class="absolute" style="z-index: -1">GJ</span>
-          </div>
-          <div>
-            <h1
-              class="text-lg font-extrabold tracking-tight leading-none text-white"
-            >
-              GOR JUARA
-            </h1>
-            <p
-              class="text-primary-200 text-[10px] tracking-[0.2em] uppercase font-bold opacity-80"
-            >
-              Member Area
-            </p>
-          </div>
+          class="h-10 w-10 bg-gradient-to-br from-accent-500 to-orange-600 rounded-xl flex items-center justify-center text-white font-black text-xs shadow-lg shadow-orange-500/20 group-hover:scale-105 transition">
+          <img src="assets/LogoKecil.png" onerror="this.style.display='none'"
+            class="h-full w-full object-cover rounded-xl" />
+          <span class="absolute" style="z-index: -1">GJ</span>
         </div>
-
-        <div class="flex items-center gap-4">
-          <div
-            class="hidden md:flex items-center gap-3 bg-white/5 px-4 py-1.5 rounded-full border border-white/5 mr-2"
-          >
-            <div class="flex items-center gap-2">
-              <div
-                class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"
-              ></div>
-              <span class="text-[10px] font-bold text-emerald-400 uppercase"
-                >Live</span
-              >
-            </div>
-            <span class="text-xs font-bold text-white/60">|</span>
-            <span class="text-xs font-bold text-white" id="header-date"
-              >Tanggal</span
-            >
-          </div>
-
-          <button
-            onclick="navTo('view-profile')"
-            class="flex items-center gap-2 text-white/60 hover:text-white px-4 py-2 rounded-full font-bold transition text-xs border border-white/5 hover:bg-white/5 hover:border-white/20"
-          >
-            <span class="hidden md:inline">Profil Saya</span>
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-          </button>
-          
-          <button
-            onclick="logout()"
-            class="flex items-center gap-2 text-white/60 hover:text-white px-4 py-2 rounded-full font-bold transition text-xs border border-white/5 hover:bg-white/5 hover:border-white/20"
-          >
-            <span class="hidden md:inline">Keluar</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-    </header>
-
-    <main
-      id="main-container"
-      class="flex-1 w-full relative z-10 overflow-y-auto overflow-x-hidden"
-    >
-      <section
-        id="view-dashboard"
-        class="page-section active w-full min-h-full max-w-6xl mx-auto px-6 py-4 flex flex-col animate-fade-in lg:pb-6"
-      >
-        <div class="shrink-0 mb-4 mt-2">
-          <h2
-            class="text-3xl font-black text-white tracking-tight drop-shadow-lg"
-          >
-            Halo,
-            <span
-              id="user-greeting-display"
-              class="text-transparent bg-clip-text bg-gradient-to-r from-accent-400 to-yellow-200"
-              >User</span
-            >
-          </h2>
-          <p class="text-primary-200 text-sm mt-1 opacity-80">
-            Siap olahraga hari ini?
+        <div>
+          <h1 class="text-lg font-extrabold tracking-tight leading-none text-white">
+            GOR JUARA
+          </h1>
+          <p class="text-primary-200 text-[10px] tracking-[0.2em] uppercase font-bold opacity-80">
+            Member Area
           </p>
         </div>
+      </div>
 
+      <div class="flex items-center gap-4">
+        <div class="hidden md:flex items-center gap-3 bg-white/5 px-4 py-1.5 rounded-full border border-white/5 mr-2">
+          <div class="flex items-center gap-2">
+            <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+            <span class="text-[10px] font-bold text-emerald-400 uppercase">Live</span>
+          </div>
+          <span class="text-xs font-bold text-white/60">|</span>
+          <span class="text-xs font-bold text-white" id="header-date">Tanggal</span>
+        </div>
+
+        <button onclick="navTo('view-profile')"
+          class="flex items-center gap-2 text-white/60 hover:text-white px-4 py-2 rounded-full font-bold transition text-xs border border-white/5 hover:bg-white/5 hover:border-white/20">
+          <span class="hidden md:inline">Profil Saya</span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+          </svg>
+        </button>
+
+        <button onclick="logout()"
+          class="flex items-center gap-2 text-white/60 hover:text-white px-4 py-2 rounded-full font-bold transition text-xs border border-white/5 hover:bg-white/5 hover:border-white/20">
+          <span class="hidden md:inline">Keluar</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-container" class="flex-1 w-full relative z-10 overflow-y-auto overflow-x-hidden">
+    <section id="view-dashboard"
+      class="page-section active w-full min-h-full max-w-6xl mx-auto px-6 py-4 flex flex-col animate-fade-in lg:pb-6">
+      <div class="shrink-0 mb-4 mt-2">
+        <h2 class="text-3xl font-black text-white tracking-tight drop-shadow-lg">
+          Halo,
+          <span id="user-greeting-display"
+            class="text-transparent bg-clip-text bg-gradient-to-r from-accent-400 to-yellow-200">User</span>
+        </h2>
+        <p class="text-primary-200 text-sm mt-1 opacity-80">
+          Siap olahraga hari ini?
+        </p>
+      </div>
+
+      <div onclick="navTo('view-booking-date')"
+        class="shrink-0 shimmer relative w-full overflow-hidden rounded-[2rem] bg-primary-900 border border-white/10 shadow-2xl cursor-pointer group hover:scale-[1.005] transition-all duration-500 h-44 md:h-52 mb-6">
         <div
-          onclick="navTo('view-booking-date')"
-          class="shrink-0 shimmer relative w-full overflow-hidden rounded-[2rem] bg-primary-900 border border-white/10 shadow-2xl cursor-pointer group hover:scale-[1.005] transition-all duration-500 h-44 md:h-52 mb-6"
-        >
-          <div
-            class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1626224583764-847890e0e966?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center transition-transform duration-1000 group-hover:scale-110 opacity-60"
-          ></div>
-          <div
-            class="absolute inset-0 bg-gradient-to-r from-primary-950 via-primary-900/80 to-transparent z-0"
-          ></div>
+          class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1626224583764-847890e0e966?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center transition-transform duration-1000 group-hover:scale-110 opacity-60">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-r from-primary-950 via-primary-900/80 to-transparent z-0"></div>
+
+        <div class="relative z-10 h-full p-8 flex items-center justify-between">
+          <div class="flex flex-col justify-center h-full max-w-md">
+            <span
+              class="inline-flex items-center gap-2 px-3 py-1.5 w-fit rounded-lg bg-accent-500/90 backdrop-blur-md text-white text-[10px] font-black tracking-widest mb-3 shadow-lg">
+              <svg class="w-3 h-3 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+              BOOKING CEPAT
+            </span>
+            <h3 class="text-3xl md:text-4xl font-black text-white leading-tight mb-2 drop-shadow-lg">
+              Sewa Lapangan<br />Sekarang.
+            </h3>
+            <button
+              class="flex items-center gap-2 text-sm font-bold text-accent-400 group-hover:text-accent-300 transition mt-1">
+              Cek Jadwal Kosong
+              <span class="group-hover:translate-x-1 transition">→</span>
+            </button>
+          </div>
 
           <div
-            class="relative z-10 h-full p-8 flex items-center justify-between"
-          >
-            <div class="flex flex-col justify-center h-full max-w-md">
-              <span
-                class="inline-flex items-center gap-2 px-3 py-1.5 w-fit rounded-lg bg-accent-500/90 backdrop-blur-md text-white text-[10px] font-black tracking-widest mb-3 shadow-lg"
-              >
-                <svg
-                  class="w-3 h-3 animate-bounce"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M13 10V3L4 14h7v7l9-11h-7z"
-                  />
+            class="hidden md:flex w-16 h-16 rounded-full bg-white/10 border border-white/20 flex items-center justify-center group-hover:bg-accent-500 group-hover:border-accent-500 group-hover:text-black group-hover:rotate-[-45deg] transition-all duration-500 backdrop-blur-md shadow-2xl">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="flex-1 flex flex-col min-h-[300px] bg-black/20 backdrop-blur-xl border border-white/10 rounded-[2rem] overflow-hidden mb-6 lg:mb-0 shadow-inner">
+        <div class="p-5 border-b border-white/5 flex justify-between items-center shrink-0 bg-white/5">
+          <h3 class="text-sm font-black text-white flex items-center gap-2">
+            <span class="w-1.5 h-4 bg-accent-500 rounded-full shadow-[0_0_10px_orange]"></span>
+            Tiket Saya
+          </h3>
+          <span class="text-[10px] text-white/40 font-bold bg-white/5 px-2 py-1 rounded">Terbaru</span>
+        </div>
+        <div class="flex-1 overflow-y-auto p-5 space-y-3" id="member-history"></div>
+      </div>
+    </section>
+
+    <section id="view-booking-date" class="page-section hidden w-full h-full lg:overflow-y-auto p-6 animate-fade-in">
+      <div class="max-w-4xl mx-auto pb-20">
+        <div class="flex items-center gap-4 mb-6">
+          <button onclick="navTo('view-dashboard')"
+            class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition text-white">
+            ←
+          </button>
+          <h2 class="text-2xl font-black text-white">Pilih Jadwal</h2>
+        </div>
+        <div class="bg-black/20 backdrop-blur-xl p-6 md:p-8 rounded-[2rem] border border-white/10 shadow-xl">
+          <div class="mb-8">
+            <label class="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-4 block">1. Tanggal</label>
+            <div class="flex gap-4 overflow-x-auto pb-4 snap-x scrollbar-hide" id="date-scroll-container"></div>
+          </div>
+          <div>
+            <label class="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-4 block">2. Lapangan &
+              Waktu</label>
+            <div id="slots-area" class="flex flex-col gap-3"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-payment" class="page-section hidden w-full h-full lg:overflow-y-auto p-6 animate-fade-in">
+      <div class="max-w-5xl mx-auto pb-20">
+        <div class="flex items-center gap-4 mb-6">
+          <button onclick="navTo('view-booking-date')"
+            class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition text-white">
+            ←
+          </button>
+          <h2 class="text-2xl font-black text-white">Konfirmasi</h2>
+        </div>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div
+            class="bg-gradient-to-b from-primary-800 to-primary-900 p-8 rounded-[2rem] border border-white/10 shadow-2xl relative overflow-hidden">
+            <p class="text-primary-300 text-xs font-bold uppercase tracking-[0.2em] mb-6">
+              Rincian Tiket
+            </p>
+            <h1 class="text-4xl font-black text-white mb-2 tracking-tight" id="pay-time-display">
+              --:--
+            </h1>
+            <p class="text-emerald-400 font-bold text-lg mb-6 flex items-center gap-2">
+              <span id="pay-date-display">---</span>
+            </p>
+            <div class="space-y-6">
+              <div class="bg-black/20 p-5 rounded-2xl border border-white/5 backdrop-blur-sm">
+                <label class="block text-[10px] font-bold text-white/40 uppercase tracking-widest mb-2">Pilih
+                  Durasi</label>
+                <select id="duration-select" onchange="updateDurationPrice()"
+                  class="w-full bg-transparent text-white text-lg font-bold outline-none cursor-pointer">
+                  <option value="1" class="bg-primary-900">1 Jam</option>
+                  <option value="2" class="bg-primary-900">2 Jam</option>
+                  <option value="3" class="bg-primary-900">3 Jam</option>
+                </select>
+              </div>
+              <div class="flex justify-between items-end pt-6 border-t border-white/10">
+                <span class="text-sm font-medium text-white/60">Total Bayar</span>
+                <span class="text-3xl font-black text-accent-500" id="total-price-display">Rp 50.000</span>
+              </div>
+            </div>
+          </div>
+          <div class="bg-black/20 backdrop-blur-xl p-8 rounded-[2rem] border border-white/10 shadow-lg">
+            <form onsubmit="handlePayment(event)" class="space-y-6">
+              <div>
+                <label class="block text-xs font-bold text-primary-200 mb-4 uppercase tracking-widest">Metode</label>
+                <div class="space-y-3">
+                  <label
+                    class="flex items-center gap-4 p-4 rounded-2xl border border-white/10 bg-white/5 cursor-pointer has-[:checked]:border-accent-500 has-[:checked]:bg-accent-500/10"><input
+                      type="radio" name="payment" class="hidden" checked /><span
+                      class="text-sm font-bold text-white">Transfer BCA</span></label>
+                  <label
+                    class="flex items-center gap-4 p-4 rounded-2xl border border-white/10 bg-white/5 cursor-pointer has-[:checked]:border-accent-500 has-[:checked]:bg-accent-500/10"><input
+                      type="radio" name="payment" class="hidden" /><span
+                      class="text-sm font-bold text-white">QRIS</span></label>
+                </div>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-primary-200 mb-4 uppercase tracking-widest">Bukti Transfer
+                  <span class="text-red-400">*</span></label>
+                <label
+                  class="flex flex-col items-center justify-center w-full h-24 border-2 border-white/10 border-dashed rounded-2xl cursor-pointer hover:bg-white/5 hover:border-accent-500/50 transition bg-black/20"><span
+                    class="text-xs font-bold text-white/40" id="file-label">Upload Foto</span><input id="proof-file"
+                    type="file" class="hidden" onchange="previewFile()" accept="image/*" /></label>
+              </div>
+              <div class="flex gap-3">
+                <button type="button" onclick="navTo('view-booking-date')"
+                  class="w-1/3 py-4 bg-white/5 hover:bg-white/10 text-white font-bold rounded-2xl transition-all border border-white/10">Batal</button>
+                <button type="submit" id="btn-pay"
+                  class="w-2/3 py-4 bg-accent-600 hover:bg-accent-500 text-white font-bold rounded-2xl shadow-xl transition-all flex justify-center items-center gap-2">Bayar
+                  Sekarang</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-success"
+      class="page-section hidden w-full h-full flex flex-col items-center justify-center text-center animate-fade-in">
+      <div
+        class="w-20 h-20 bg-emerald-500/20 border border-emerald-500/50 rounded-full flex items-center justify-center mb-6 mx-auto text-emerald-400 shadow-[0_0_50px_rgba(16,185,129,0.3)] animate-bounce">
+        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+        </svg>
+      </div>
+      <h3 class="text-3xl font-black text-white mb-2">Berhasil!</h3>
+      <p class="text-white/50 mb-8">Tiket Anda sedang diverifikasi admin.</p>
+      <button onclick="navTo('view-dashboard')"
+        class="bg-white/10 border border-white/20 hover:bg-white/20 text-white px-8 py-3 rounded-xl font-bold transition">
+        Ke Dashboard
+      </button>
+    </section>
+
+    <section id="view-profile"
+      class="page-section hidden w-full h-full max-w-lg mx-auto px-6 py-10 flex flex-col animate-fade-in">
+      <div class="flex items-center justify-between mb-8">
+        <button onclick="navTo('view-dashboard')"
+          class="text-white/50 hover:text-white font-bold flex items-center gap-2 transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+          Kembali
+        </button>
+        <h2 class="text-2xl font-black text-white">Profil Saya</h2>
+      </div>
+
+      <div class="bg-white/5 p-6 rounded-[2rem] border border-white/10 shadow-xl backdrop-blur-md">
+        <form id="form-profile" onsubmit="updateProfile(event)" class="space-y-5">
+          <div>
+            <label class="block text-xs font-bold text-primary-300 uppercase tracking-widest mb-2">Username (ID
+              Login)</label>
+            <input type="text" id="prof-username" required
+              class="w-full px-5 py-4 rounded-xl bg-black/20 border border-white/10 focus:border-accent-500 outline-none text-white text-sm"
+              placeholder="Username" disabled>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-primary-300 uppercase tracking-widest mb-2">No. WhatsApp</label>
+            <input type="number" id="prof-phone" required
+              class="w-full px-5 py-4 rounded-xl bg-black/20 border border-white/10 focus:border-accent-500 outline-none text-white text-sm"
+              placeholder="Contoh: 08123456789">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-primary-300 uppercase tracking-widest mb-2">Password Baru
+              (Opsional)</label>
+            <div class="relative">
+              <input type="password" id="prof-password"
+                class="w-full px-5 py-4 rounded-xl bg-black/20 border border-white/10 focus:border-accent-500 outline-none text-white text-sm pr-12"
+                placeholder="Kosongkan jika tidak diubah">
+              <button type="button" onclick="togglePassword('prof-password', 'eye-icon-3')"
+                class="absolute inset-y-0 right-0 px-4 flex items-center text-white/80 hover:text-white transition z-10">
+                <svg id="eye-icon-3" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                  </path>
                 </svg>
-                BOOKING CEPAT
-              </span>
-              <h3
-                class="text-3xl md:text-4xl font-black text-white leading-tight mb-2 drop-shadow-lg"
-              >
-                Sewa Lapangan<br />Sekarang.
-              </h3>
-              <button
-                class="flex items-center gap-2 text-sm font-bold text-accent-400 group-hover:text-accent-300 transition mt-1"
-              >
-                Cek Jadwal Kosong
-                <span class="group-hover:translate-x-1 transition">→</span>
               </button>
             </div>
-
-            <div
-              class="hidden md:flex w-16 h-16 rounded-full bg-white/10 border border-white/20 flex items-center justify-center group-hover:bg-accent-500 group-hover:border-accent-500 group-hover:text-black group-hover:rotate-[-45deg] transition-all duration-500 backdrop-blur-md shadow-2xl"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M14 5l7 7m0 0l-7 7m7-7H3"
-                />
-              </svg>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-primary-300 uppercase tracking-widest mb-2">Konfirmasi Password
+              Baru</label>
+            <div class="relative">
+              <input type="password" id="prof-password-confirm"
+                class="w-full px-5 py-4 rounded-xl bg-black/20 border border-white/10 focus:border-accent-500 outline-none text-white text-sm pr-12"
+                placeholder="Ulangi password...">
+              <button type="button" onclick="togglePassword('prof-password-confirm', 'eye-icon-4')"
+                class="absolute inset-y-0 right-0 px-4 flex items-center text-white/80 hover:text-white transition z-10">
+                <svg id="eye-icon-4" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                  </path>
+                </svg>
+              </button>
             </div>
           </div>
-        </div>
+          <button type="submit"
+            class="w-full py-4 bg-accent-600 hover:bg-accent-500 text-white font-bold rounded-2xl shadow-xl shadow-accent-600/40 transition-all mt-4">
+            Simpan Profil
+          </button>
+        </form>
+      </div>
+    </section>
+  </main>
 
-        <div
-          class="flex-1 flex flex-col min-h-[300px] bg-black/20 backdrop-blur-xl border border-white/10 rounded-[2rem] overflow-hidden mb-6 lg:mb-0 shadow-inner"
-        >
-          <div
-            class="p-5 border-b border-white/5 flex justify-between items-center shrink-0 bg-white/5"
-          >
-            <h3 class="text-sm font-black text-white flex items-center gap-2">
-              <span
-                class="w-1.5 h-4 bg-accent-500 rounded-full shadow-[0_0_10px_orange]"
-              ></span>
-              Tiket Saya
-            </h3>
-            <span
-              class="text-[10px] text-white/40 font-bold bg-white/5 px-2 py-1 rounded"
-              >Terbaru</span
-            >
-          </div>
-          <div
-            class="flex-1 overflow-y-auto p-5 space-y-3"
-            id="member-history"
-          ></div>
-        </div>
-      </section>
-
-      <section
-        id="view-booking-date"
-        class="page-section hidden w-full h-full lg:overflow-y-auto p-6 animate-fade-in"
-      >
-        <div class="max-w-4xl mx-auto pb-20">
-          <div class="flex items-center gap-4 mb-6">
-            <button
-              onclick="navTo('view-dashboard')"
-              class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition text-white"
-            >
-              ←
-            </button>
-            <h2 class="text-2xl font-black text-white">Pilih Jadwal</h2>
-          </div>
-          <div
-            class="bg-black/20 backdrop-blur-xl p-6 md:p-8 rounded-[2rem] border border-white/10 shadow-xl"
-          >
-            <div class="mb-8">
-              <label
-                class="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-4 block"
-                >1. Tanggal</label
-              >
-              <div
-                class="flex gap-4 overflow-x-auto pb-4 snap-x scrollbar-hide"
-                id="date-scroll-container"
-              ></div>
-            </div>
-            <div>
-              <label
-                class="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-4 block"
-                >2. Lapangan & Waktu</label
-              >
-              <div id="slots-area" class="flex flex-col gap-3"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section
-        id="view-payment"
-        class="page-section hidden w-full h-full lg:overflow-y-auto p-6 animate-fade-in"
-      >
-        <div class="max-w-5xl mx-auto pb-20">
-          <div class="flex items-center gap-4 mb-6">
-            <button
-              onclick="navTo('view-booking-date')"
-              class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition text-white"
-            >
-              ←
-            </button>
-            <h2 class="text-2xl font-black text-white">Konfirmasi</h2>
-          </div>
-          <div class="grid md:grid-cols-2 gap-6">
-            <div
-              class="bg-gradient-to-b from-primary-800 to-primary-900 p-8 rounded-[2rem] border border-white/10 shadow-2xl relative overflow-hidden"
-            >
-              <p
-                class="text-primary-300 text-xs font-bold uppercase tracking-[0.2em] mb-6"
-              >
-                Rincian Tiket
-              </p>
-              <h1
-                class="text-4xl font-black text-white mb-2 tracking-tight"
-                id="pay-time-display"
-              >
-                --:--
-              </h1>
-              <p
-                class="text-emerald-400 font-bold text-lg mb-6 flex items-center gap-2"
-              >
-                <span id="pay-date-display">---</span>
-              </p>
-              <div class="space-y-6">
-                <div
-                  class="bg-black/20 p-5 rounded-2xl border border-white/5 backdrop-blur-sm"
-                >
-                  <label
-                    class="block text-[10px] font-bold text-white/40 uppercase tracking-widest mb-2"
-                    >Pilih Durasi</label
-                  >
-                  <select
-                    id="duration-select"
-                    onchange="updateDurationPrice()"
-                    class="w-full bg-transparent text-white text-lg font-bold outline-none cursor-pointer"
-                  >
-                    <option value="1" class="bg-primary-900">1 Jam</option>
-                    <option value="2" class="bg-primary-900">2 Jam</option>
-                    <option value="3" class="bg-primary-900">3 Jam</option>
-                  </select>
-                </div>
-                <div
-                  class="flex justify-between items-end pt-6 border-t border-white/10"
-                >
-                  <span class="text-sm font-medium text-white/60"
-                    >Total Bayar</span
-                  >
-                  <span
-                    class="text-3xl font-black text-accent-500"
-                    id="total-price-display"
-                    >Rp 50.000</span
-                  >
-                </div>
-              </div>
-            </div>
-            <div
-              class="bg-black/20 backdrop-blur-xl p-8 rounded-[2rem] border border-white/10 shadow-lg"
-            >
-              <form onsubmit="handlePayment(event)" class="space-y-6">
-                <div>
-                  <label
-                    class="block text-xs font-bold text-primary-200 mb-4 uppercase tracking-widest"
-                    >Metode</label
-                  >
-                  <div class="space-y-3">
-                    <label
-                      class="flex items-center gap-4 p-4 rounded-2xl border border-white/10 bg-white/5 cursor-pointer has-[:checked]:border-accent-500 has-[:checked]:bg-accent-500/10"
-                      ><input
-                        type="radio"
-                        name="payment"
-                        class="hidden"
-                        checked
-                      /><span class="text-sm font-bold text-white"
-                        >Transfer BCA</span
-                      ></label
-                    >
-                    <label
-                      class="flex items-center gap-4 p-4 rounded-2xl border border-white/10 bg-white/5 cursor-pointer has-[:checked]:border-accent-500 has-[:checked]:bg-accent-500/10"
-                      ><input type="radio" name="payment" class="hidden" /><span
-                        class="text-sm font-bold text-white"
-                        >QRIS</span
-                      ></label
-                    >
-                  </div>
-                </div>
-                <div>
-                  <label
-                    class="block text-xs font-bold text-primary-200 mb-4 uppercase tracking-widest"
-                    >Bukti Transfer <span class="text-red-400">*</span></label
-                  >
-                  <label
-                    class="flex flex-col items-center justify-center w-full h-24 border-2 border-white/10 border-dashed rounded-2xl cursor-pointer hover:bg-white/5 hover:border-accent-500/50 transition bg-black/20"
-                    ><span
-                      class="text-xs font-bold text-white/40"
-                      id="file-label"
-                      >Upload Foto</span
-                    ><input
-                      id="proof-file"
-                      type="file"
-                      class="hidden"
-                      onchange="previewFile()"
-                      accept="image/*"
-                  /></label>
-                </div>
-                <div class="flex gap-3">
-                  <button type="button" onclick="navTo('view-booking-date')" class="w-1/3 py-4 bg-white/5 hover:bg-white/10 text-white font-bold rounded-2xl transition-all border border-white/10">Batal</button>
-                  <button type="submit" id="btn-pay" class="w-2/3 py-4 bg-accent-600 hover:bg-accent-500 text-white font-bold rounded-2xl shadow-xl transition-all flex justify-center items-center gap-2">Bayar Sekarang</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section
-        id="view-success"
-        class="page-section hidden w-full h-full flex flex-col items-center justify-center text-center animate-fade-in"
-      >
-        <div
-          class="w-20 h-20 bg-emerald-500/20 border border-emerald-500/50 rounded-full flex items-center justify-center mb-6 mx-auto text-emerald-400 shadow-[0_0_50px_rgba(16,185,129,0.3)] animate-bounce"
-        >
-          <svg
-            class="w-10 h-10 text-white"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="3"
-              d="M5 13l4 4L19 7"
-            ></path>
-          </svg>
-        </div>
-        <h3 class="text-3xl font-black text-white mb-2">Berhasil!</h3>
-        <p class="text-white/50 mb-8">Tiket Anda sedang diverifikasi admin.</p>
-        <button
-          onclick="navTo('view-dashboard')"
-          class="bg-white/10 border border-white/20 hover:bg-white/20 text-white px-8 py-3 rounded-xl font-bold transition"
-        >
-          Ke Dashboard
+  <div id="logout-modal"
+    class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm transition-opacity duration-300">
+    <div
+      class="bg-primary-900 border border-white/10 p-6 rounded-[2rem] w-full max-w-xs text-center shadow-2xl transform scale-95 opacity-0 transition-all duration-300">
+      <div class="w-16 h-16 bg-red-500/20 text-red-500 rounded-full flex items-center justify-center mx-auto mb-6">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+        </svg>
+      </div>
+      <h3 class="text-2xl font-black text-white mb-2">Mau istirahat?</h3>
+      <p class="text-white/50 mb-8 text-sm">
+        Anda harus login lagi nanti untuk mengakses tiket.
+      </p>
+      <div class="flex gap-3">
+        <button onclick="closeLogoutModal()"
+          class="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white font-bold rounded-xl transition border border-white/5">
+          Batal
         </button>
-      </section>
-
-      <section
-        id="view-profile"
-        class="page-section hidden w-full h-full max-w-lg mx-auto px-6 py-10 flex flex-col animate-fade-in"
-      >
-        <div class="flex items-center justify-between mb-8">
-          <button onclick="navTo('view-dashboard')" class="text-white/50 hover:text-white font-bold flex items-center gap-2 transition">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-            Kembali
-          </button>
-          <h2 class="text-2xl font-black text-white">Profil Saya</h2>
-        </div>
-
-        <div class="bg-white/5 p-6 rounded-[2rem] border border-white/10 shadow-xl backdrop-blur-md">
-          <form id="form-profile" onsubmit="updateProfile(event)" class="space-y-5">
-            <div>
-              <label class="block text-xs font-bold text-primary-300 uppercase tracking-widest mb-2">Username (ID Login)</label>
-              <input type="text" id="prof-username" required class="w-full px-5 py-4 rounded-xl bg-black/20 border border-white/10 focus:border-accent-500 outline-none text-white text-sm" placeholder="Username" disabled>
-            </div>
-            <div>
-              <label class="block text-xs font-bold text-primary-300 uppercase tracking-widest mb-2">No. WhatsApp</label>
-              <input type="number" id="prof-phone" required class="w-full px-5 py-4 rounded-xl bg-black/20 border border-white/10 focus:border-accent-500 outline-none text-white text-sm" placeholder="Contoh: 08123456789">
-            </div>
-            <div>
-              <label class="block text-xs font-bold text-primary-300 uppercase tracking-widest mb-2">Password Baru (Opsional)</label>
-              <div class="relative">
-                <input type="password" id="prof-password" class="w-full px-5 py-4 rounded-xl bg-black/20 border border-white/10 focus:border-accent-500 outline-none text-white text-sm pr-12" placeholder="Kosongkan jika tidak diubah">
-                <button type="button" onclick="togglePassword('prof-password', 'eye-icon-3')" class="absolute inset-y-0 right-0 px-4 flex items-center text-white/80 hover:text-white transition z-10">
-                  <svg id="eye-icon-3" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                </button>
-              </div>
-            </div>
-            <div>
-              <label class="block text-xs font-bold text-primary-300 uppercase tracking-widest mb-2">Konfirmasi Password Baru</label>
-              <div class="relative">
-                <input type="password" id="prof-password-confirm" class="w-full px-5 py-4 rounded-xl bg-black/20 border border-white/10 focus:border-accent-500 outline-none text-white text-sm pr-12" placeholder="Ulangi password...">
-                <button type="button" onclick="togglePassword('prof-password-confirm', 'eye-icon-4')" class="absolute inset-y-0 right-0 px-4 flex items-center text-white/80 hover:text-white transition z-10">
-                  <svg id="eye-icon-4" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                </button>
-              </div>
-            </div>
-            <button type="submit" class="w-full py-4 bg-accent-600 hover:bg-accent-500 text-white font-bold rounded-2xl shadow-xl shadow-accent-600/40 transition-all mt-4">
-              Simpan Profil
-            </button>
-          </form>
-        </div>
-      </section>
-    </main>
-
-    <div
-      id="logout-modal"
-      class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm transition-opacity duration-300"
-    >
-      <div
-        class="bg-primary-900 border border-white/10 p-6 rounded-[2rem] w-full max-w-xs text-center shadow-2xl transform scale-95 opacity-0 transition-all duration-300"
-      >
-        <div
-          class="w-16 h-16 bg-red-500/20 text-red-500 rounded-full flex items-center justify-center mx-auto mb-6"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-8 w-8"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-            />
-          </svg>
-        </div>
-        <h3 class="text-2xl font-black text-white mb-2">Mau istirahat?</h3>
-        <p class="text-white/50 mb-8 text-sm">
-          Anda harus login lagi nanti untuk mengakses tiket.
-        </p>
-        <div class="flex gap-3">
-          <button
-            onclick="closeLogoutModal()"
-            class="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white font-bold rounded-xl transition border border-white/5"
-          >
-            Batal
-          </button>
-          <button
-            onclick="confirmLogout()"
-            class="flex-1 py-3 bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl transition shadow-lg shadow-red-600/20"
-          >
-            Ya, Keluar
-          </button>
-        </div>
+        <button onclick="confirmLogout()"
+          class="flex-1 py-3 bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl transition shadow-lg shadow-red-600/20">
+          Ya, Keluar
+        </button>
       </div>
     </div>
+  </div>
 
-    <div
-      id="custom-confirm-modal"
-      class="hidden fixed inset-0 z-[120] flex items-center justify-center bg-black/80 backdrop-blur-sm transition-opacity duration-300"
-    >
-      <div
-        id="custom-confirm-box"
-        class="bg-primary-900 border border-white/10 p-6 rounded-[2rem] w-full max-w-xs text-center shadow-2xl transform scale-95 opacity-0 transition-all duration-300"
-      >
-        <div
-          class="w-16 h-16 bg-amber-500/20 text-amber-500 rounded-full flex items-center justify-center mx-auto mb-6"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-          </svg>
-        </div>
-        <h3 class="text-xl font-black text-white mb-2">Konfirmasi</h3>
-        <p id="custom-confirm-msg" class="text-white/60 mb-8 text-sm">Apakah Anda yakin?</p>
-        <div class="flex gap-3">
-          <button id="custom-confirm-btn-cancel" class="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white font-bold rounded-xl transition border border-white/5 text-sm">Batal</button>
-          <button id="custom-confirm-btn-ok" class="flex-1 py-3 bg-accent-600 hover:bg-accent-500 text-white font-bold rounded-xl transition shadow-lg shadow-accent-600/20 text-sm">Ya, Yakin</button>
-        </div>
+  <div id="custom-confirm-modal"
+    class="hidden fixed inset-0 z-[120] flex items-center justify-center bg-black/80 backdrop-blur-sm transition-opacity duration-300">
+    <div id="custom-confirm-box"
+      class="bg-primary-900 border border-white/10 p-6 rounded-[2rem] w-full max-w-xs text-center shadow-2xl transform scale-95 opacity-0 transition-all duration-300">
+      <div class="w-16 h-16 bg-amber-500/20 text-amber-500 rounded-full flex items-center justify-center mx-auto mb-6">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+      </div>
+      <h3 class="text-xl font-black text-white mb-2">Konfirmasi</h3>
+      <p id="custom-confirm-msg" class="text-white/60 mb-8 text-sm">Apakah Anda yakin?</p>
+      <div class="flex gap-3">
+        <button id="custom-confirm-btn-cancel"
+          class="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white font-bold rounded-xl transition border border-white/5 text-sm">Batal</button>
+        <button id="custom-confirm-btn-ok"
+          class="flex-1 py-3 bg-accent-600 hover:bg-accent-500 text-white font-bold rounded-xl transition shadow-lg shadow-accent-600/20 text-sm">Ya,
+          Yakin</button>
       </div>
     </div>
+  </div>
 
-    <div id="toast-container" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-[100] flex flex-col gap-3 pointer-events-none"></div>
-    <script src="js/data.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/member.js"></script>
-    <script>
-      const user = sessionStorage.getItem("currentUser") || "User";
-      const el = document.getElementById("user-greeting-display");
-      if (el) el.innerText = user;
-    </script>
-  </body>
+  <div id="toast-container"
+    class="fixed bottom-5 left-1/2 -translate-x-1/2 z-[100] flex flex-col gap-3 pointer-events-none"></div>
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/member.js"></script>
+  <script>
+    const user = sessionStorage.getItem("currentUser") || "User";
+    const el = document.getElementById("user-greeting-display");
+    if (el) el.innerText = user;
+  </script>
+</body>
+
 </html>
