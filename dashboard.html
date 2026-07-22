@@ -118,11 +118,11 @@
 
     <main
       id="main-container"
-      class="flex-1 w-full relative z-10 lg:overflow-hidden overflow-visible"
+      class="flex-1 w-full relative z-10 overflow-y-auto overflow-x-hidden"
     >
       <section
         id="view-dashboard"
-        class="page-section active w-full h-full max-w-6xl mx-auto px-6 py-4 flex flex-col animate-fade-in lg:pb-6"
+        class="page-section active w-full min-h-full max-w-6xl mx-auto px-6 py-4 flex flex-col animate-fade-in lg:pb-6"
       >
         <div class="shrink-0 mb-4 mt-2">
           <h2
@@ -208,7 +208,7 @@
         </div>
 
         <div
-          class="flex-1 flex flex-col min-h-0 bg-black/20 backdrop-blur-xl border border-white/10 rounded-[2rem] overflow-hidden mb-6 lg:mb-0 shadow-inner"
+          class="flex-1 flex flex-col min-h-[300px] bg-black/20 backdrop-blur-xl border border-white/10 rounded-[2rem] overflow-hidden mb-6 lg:mb-0 shadow-inner"
         >
           <div
             class="p-5 border-b border-white/5 flex justify-between items-center shrink-0 bg-white/5"

@@ -454,7 +454,7 @@ function renderHistory() {
 
   if (list.length === 0) {
     container.innerHTML = `
-        <div class="h-full w-full flex flex-col items-center justify-center text-center p-8 opacity-60">
+        <div class="py-12 w-full flex flex-col items-center justify-center text-center p-8 opacity-60">
             <div class="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mb-4 text-4xl shadow-inner border border-white/5">🏸</div>
             <p class="text-base font-bold text-white">Belum ada tiket.</p>
             <p class="text-xs text-white/50 mt-1 mb-6">Jadwal lapangan masih banyak yang kosong.</p>
